@@ -3,7 +3,44 @@
 # External dependencies
 # 
 
-# find_package(THIRDPARTY REQUIRED)
+find_package(OpenGL REQUIRED)
+if (OPENGL_FOUND)
+    include_directories(${OPENGL_INCLUDE_DIR})
+    link_libraries(${OPENGL_LIBRARIES})
+
+    message(STATUS "OPENGL_INCLUDE_DIR: " ${OPENGL_INCLUDE_DIR})
+    message(STATUS "OPENGL_LIBRARIES: " ${OPENGL_LIBRARIES})
+else()
+    message(FATAL_ERROR "${target} skipped: OpenGL not found")
+    return()
+endif ()
+
+find_package(GLEW REQUIRED)
+if (GLEW_FOUND)
+    include_directories(${GLEW_INCLUDE_DIR})
+    link_libraries(${GLEW_LIBRARY})
+
+    message(STATUS "GLEW_INCLUDE_DIR: " ${GLEW_INCLUDE_DIR})
+    message(STATUS "GLEW_LIBRARY: " ${GLEW_LIBRARY})
+else()
+    message(FATAL_ERROR "${target} skipped: GLEW not found")
+    return()
+endif ()
+
+find_package(GLFW REQUIRED)
+if (GLFW_FOUND)
+    include_directories(${GLFW_INCLUDE_DIR})
+    link_libraries(${GLFW_LIBRARIES})
+
+    message(STATUS "GLFW_INCLUDE_DIR: " ${GLFW_INCLUDE_DIR})
+    message(STATUS "GLFW_LIBRARIES: " ${GLFW_LIBRARIES})
+else()
+    find_package(glfw3 REQUIRED)
+    if (glfw3_FOUND)
+        link_libraries(glfw)
+        include_directories ($<TARGET_PROPERTY:glfw,INTERFACE_INCLUDE_DIRECTORIES>)
+    endif()
+endif()
 
 # 
 # Library name and options
@@ -210,8 +247,8 @@ target_link_libraries(${target}
 	${META_PROJECT_NAME}::CoreSystems
 	${META_PROJECT_NAME}::RenderDevice
     ${META_PROJECT_NAME}::Resources
-	glfw
-	libglew_shared
+	${GLFW_LIBRARIES}
+    ${GLEW_LIBRARY}
 
     PUBLIC
     ${DEFAULT_LIBRARIES}
@@ -230,6 +267,7 @@ target_compile_definitions(${target}
     PUBLIC
     $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${target_id}_STATIC_DEFINE>
     ${DEFAULT_COMPILE_DEFINITIONS}
+    ${OPTION_GLFW_DEFINE}
 
     INTERFACE
 )
@@ -299,8 +337,8 @@ install(DIRECTORY
 )
 
 # CMake config
-#install(EXPORT ${target}-export
-#    NAMESPACE   ${META_PROJECT_NAME}::
-#    DESTINATION ${INSTALL_CMAKE}/${target}
-#    COMPONENT   dev
-#)
+install(EXPORT ${target}-export
+    NAMESPACE   ${META_PROJECT_NAME}::
+    DESTINATION ${INSTALL_CMAKE}/${target}
+    COMPONENT   dev
+)

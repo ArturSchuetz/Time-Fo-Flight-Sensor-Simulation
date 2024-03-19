@@ -19,6 +19,14 @@ else()
     return()
 endif()
 
+find_package(GLEW REQUIRED)
+if (GLEW_FOUND)
+    include_directories(${GLEW_INCLUDE_DIRS})
+else()
+    message(FATAL_ERROR "GLEW library not found")
+    return()
+endif()
+
 find_package(OptiX REQUIRED)
 include_directories("${OptiX_INCLUDE}")
 
@@ -90,6 +98,7 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
+    ${GLEW_LIBRARIES}
     ${META_PROJECT_NAME}::CoreSystems
     ${META_PROJECT_NAME}::Resources
     ${META_PROJECT_NAME}::InputDevice

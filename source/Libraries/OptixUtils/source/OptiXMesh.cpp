@@ -26,6 +26,8 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include <optixu/optixu_math_namespace.h>
+
 #include <OptixUtils/OptiXMesh.h>
 #include <OptixUtils/sutil.h>
 

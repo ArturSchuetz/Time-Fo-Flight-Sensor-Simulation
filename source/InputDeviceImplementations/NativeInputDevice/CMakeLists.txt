@@ -215,12 +215,12 @@ perform_health_checks(
 # 
 
 # Library
-#install(TARGETS ${target}
-#    EXPORT  "${target}-export"            COMPONENT dev
-#    RUNTIME DESTINATION ${INSTALL_BIN}    COMPONENT runtime
-#    LIBRARY DESTINATION ${INSTALL_SHARED} COMPONENT runtime
-#    ARCHIVE DESTINATION ${INSTALL_LIB}    COMPONENT dev
-#)
+install(TARGETS ${target}
+    EXPORT  "${target}-export"            COMPONENT dev
+    RUNTIME DESTINATION ${INSTALL_BIN}    COMPONENT runtime
+    LIBRARY DESTINATION ${INSTALL_SHARED} COMPONENT runtime
+    ARCHIVE DESTINATION ${INSTALL_LIB}    COMPONENT dev
+)
 
 # Header files
 install(DIRECTORY
@@ -235,8 +235,8 @@ install(DIRECTORY
 )
 
 # CMake config
-#install(EXPORT ${target}-export
-#    NAMESPACE   ${META_PROJECT_NAME}::
-#    DESTINATION ${INSTALL_CMAKE}/${target}
-#    COMPONENT   dev
-#)
+install(EXPORT ${target}-export
+    NAMESPACE   ${META_PROJECT_NAME}::
+    DESTINATION ${INSTALL_CMAKE}/${target}
+    COMPONENT   dev
+)

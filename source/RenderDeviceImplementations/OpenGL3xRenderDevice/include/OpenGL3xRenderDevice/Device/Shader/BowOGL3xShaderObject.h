@@ -1,6 +1,7 @@
 #pragma once
 #include <OpenGL3xRenderDevice/OpenGL3xRenderDevice_api.h>
 #include <RenderDevice/BowRenderDevicePredeclares.h>
+#include <string>
 
 namespace bow {
 

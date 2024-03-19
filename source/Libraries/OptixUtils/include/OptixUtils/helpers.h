@@ -29,4 +29,6 @@
 #pragma once
 #include <OptixUtils/OptixUtils_api.h>
 
+#define NOMINMAX 1
+#include <optixu/optixu_math_namespace.h>
 

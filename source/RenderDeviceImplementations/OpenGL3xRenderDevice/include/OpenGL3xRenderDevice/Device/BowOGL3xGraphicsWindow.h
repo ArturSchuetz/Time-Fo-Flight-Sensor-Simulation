@@ -1,5 +1,6 @@
 #pragma once
 #include <RenderDevice/Device/BowGraphicsWindow.h>
+#include <string>
 
 struct GLFWwindow;
 
