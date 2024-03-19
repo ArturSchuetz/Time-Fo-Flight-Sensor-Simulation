@@ -1,0 +1,121 @@
+%% Creator: Inkscape inkscape 0.92.4, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'cw_tof_1.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{397.5bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.01886792)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{cw_tof_1.pdf}}%
+    \put(0.02311863,0.82068145){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{cw_tof_1.pdf}}%
+    \put(0.12322322,0.94247229){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0.86240776,0.87757891){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Lichtquelle\end{tabular}}}}%
+    \put(0.01215809,0.98814099){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Amplitude\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{cw_tof_1.pdf}}%
+    \put(0.02177098,0.66022687){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{cw_tof_1.pdf}}%
+    \put(0.22468519,0.78201772){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0.86186255,0.711384){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Reflexion\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{cw_tof_1.pdf}}%
+    \put(0.08139813,0.68803214){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\Delta t$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{cw_tof_1.pdf}}%
+    \put(0.02379251,0.49904118){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{cw_tof_1.pdf}}%
+    \put(0.86240776,0.54920049){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$C_1$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{cw_tof_1.pdf}}%
+    \put(0.02244486,0.33723906){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0\end{tabular}}}}%
+    \put(0.80387788,0.34101379){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}t\end{tabular}}}}%
+    \put(0.86186255,0.3870481){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$C_2$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{cw_tof_1.pdf}}%
+    \put(0.16052309,0.5484561){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Q_1$\end{tabular}}}}%
+    \put(0.2412805,0.38713036){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Q_2$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{cw_tof_1.pdf}}%
+    \put(0.1216895,0.3720606){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0.80545524,0.50426269){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}t\end{tabular}}}}%
+    \put(0.80545524,0.66417745){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}t\end{tabular}}}}%
+    \put(0.80545524,0.82522854){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}t\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{cw_tof_1.pdf}}%
+    \put(0.1216895,0.62071287){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{cw_tof_1.pdf}}%
+    \put(0.28071921,0.45898779){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{cw_tof_1.pdf}}%
+    \put(0.02379251,0.1781317){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{cw_tof_1.pdf}}%
+    \put(0.86240776,0.22424762){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$C_3$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{cw_tof_1.pdf}}%
+    \put(0.02244486,0.01767745){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0\end{tabular}}}}%
+    \put(0.80387788,0.02145218){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}t\end{tabular}}}}%
+    \put(0.86186255,0.07018201){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$C_4$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{cw_tof_1.pdf}}%
+    \put(0.20715924,0.22754662){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Q_3$\end{tabular}}}}%
+    \put(0.28993835,0.06756853){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Q_4$\end{tabular}}}}%
+    \put(0.80545524,0.18335321){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}t\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{cw_tof_1.pdf}}%
+    \put(0.2026923,0.29980339){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{cw_tof_1.pdf}}%
+    \put(0.3617219,0.13942596){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{cw_tof_1.pdf}}%
+    \put(0.07182431,0.21842176){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\frac{t_0}{2}$\end{tabular}}}}%
+    \put(0.60462834,0.06756853){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Q_4$\end{tabular}}}}%
+    \put(0.51837503,0.22592443){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Q_3$\end{tabular}}}}%
+    \put(0.55529667,0.38713036){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Q_2$\end{tabular}}}}%
+    \put(0.47858225,0.5484561){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Q_1$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{cw_tof_1.pdf}}%
+    \put(0.28148449,0.85494162){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{cw_tof_1.pdf}}%
+    \put(0.28168188,0.53207655){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{cw_tof_1.pdf}}%
+    \put(0.38322252,0.69358324){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{cw_tof_1.pdf}}%
+    \put(0.36273272,0.21186532){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%
+    \put(0.14796986,0.05528069){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\frac{3t_0}{2}$\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

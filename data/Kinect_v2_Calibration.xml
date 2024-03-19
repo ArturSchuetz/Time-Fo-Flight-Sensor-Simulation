@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<rgbCameraCheckerboardImagesPath>Checkerboard_Kinect_v2_RGB</rgbCameraCheckerboardImagesPath>
+<irCameraCheckerboardImagesPath>Checkerboard_Kinect_v2_IR</irCameraCheckerboardImagesPath>
+<rgbCameraExtrinsicCheckerboardImageFilePath>Checkerboard_Kinect_v2_Extrinsic/rgb.png</rgbCameraExtrinsicCheckerboardImageFilePath>
+<irCameraExtrinsicCheckerboardImageFilePath>Checkerboard_Kinect_v2_Extrinsic/ir.png</irCameraExtrinsicCheckerboardImageFilePath>
+<calibration_checkerboard_width>8</calibration_checkerboard_width>
+<calibration_checkerboard_height>5</calibration_checkerboard_height>
+<calibration_checkerboard_squareSize>32.</calibration_checkerboard_squareSize>
+</opencv_storage>

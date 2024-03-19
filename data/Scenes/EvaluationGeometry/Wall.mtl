@@ -1,0 +1,10 @@
+# Blender MTL File: 'Wall.blend'
+# Material Count: 1
+
+newmtl Boden
+Kd 0.900000 0.900000 0.900000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Pm 0.000000
+Ni 1.520000
+d 1.000000

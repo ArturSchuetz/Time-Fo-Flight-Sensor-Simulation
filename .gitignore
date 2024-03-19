@@ -1,0 +1,50 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Build dir
+build*
+debug_build
+release_build
+/vs*
+/bin
+/lib
+/install
+
+# Qt cache
+CMakeLists.txt.user
+CMakeLists.txt.user.*
+
+# IDE project files
+*.sublime-project
+*.sublime-workspace
+
+# Local config windows
+_configure.bat
+_open-project.bat
+_start-cmake-gui.bat
+_start-cmd.bat
+
+# Local config unix
+.localconfig
+
+# Wiki
+wiki
+/docs/thesis/*.pdf
+/docs/thesis/*.gz
+/docs/thesis/*.toc
+/docs/thesis/*.aux
+/docs/thesis/*.out
+/docs/thesis/*.log
+/docs/thesis/*.bak
+/docs/thesis/*.sav

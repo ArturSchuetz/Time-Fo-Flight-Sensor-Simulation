@@ -1,0 +1,14 @@
+#define PROJECT_BASE_DIR "@PROJECT_BASE_DIR@"
+
+#define CUDA_FILES_DIR "@CUDA_FILES_DIR@"
+#define PTX_FILES_DIR "@PTX_FILES_DIR@"
+
+// Include directories
+#define RELATIVE_INCLUDE_DIRS @RELATIVE_INCLUDE_DIRS@
+#define ABSOLUTE_INCLUDE_DIRS @ABSOLUTE_INCLUDE_DIRS@
+
+// Signal whether to use NVRTC or not
+#cmakedefine01 CUDA_NVRTC_ENABLED
+
+// NVRTC compiler options
+#define CUDA_NVRTC_OPTIONS @CUDA_NVRTC_OPTIONS@

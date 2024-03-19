@@ -1,0 +1,5 @@
+set(IDE_FOLDER "Engine/InputDevices")
+IF (WIN32)
+	add_subdirectory(DirectInputDevice)
+ENDIF()
+add_subdirectory(NativeInputDevice)

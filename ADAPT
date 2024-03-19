@@ -1,0 +1,36 @@
+
+To adapt this template to your own project, follow these steps:
+
+--------------------------------------------------------------------
+In subdirectory "./docs/api-docs/" do:
+
+docs/api-docs/doxyfile.in:
+[ ] Adjust INPUT tag (list of doxygen annotated sources)
+
+docs/api-docs/CMakeLists.txt
+[ ] Adjust DEPENDS parameter to include all targets of project
+--------------------------------------------------------------------
+
+
+--------------------------------------------------------------------
+In subdirectory "./docs/manual/" do:
+
+docs/manual/cmake-init.tex:
+[ ] Rename to match own project name
+
+docs/manual/CMakeLists.txt
+[ ] Adjust source and pdf file name
+--------------------------------------------------------------------
+
+
+--------------------------------------------------------------------
+General stuff left to do:
+
+[ ] Rename and adjust targets in source/
+[ ] Add new targets to source/CMakeLists.txt
+[ ] Add new targets to ./{project}-config.cmake
+[ ] Add new targets to the INPUT tag in docs/api-docs/doxyfile.in
+[ ] Remove data/DATA_FOLDER.txt
+[ ] Populate data/
+[ ] Remove ADAPT
+--------------------------------------------------------------------

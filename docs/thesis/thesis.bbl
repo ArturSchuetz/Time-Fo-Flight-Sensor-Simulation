@@ -1,0 +1,232 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{SGJMSMCMC15}
+
+\bibitem[But14]{bib:Butkiewicz2014}
+Thomas Butkiewicz.
+\newblock Low-cost coastal mapping using kinect v2 time-of-flight cameras.
+\newblock In {\em 2014 Oceans - St. John's}. {IEEE}, sep 2014.
+\newblock \href {http://dx.doi.org/10.1109/oceans.2014.7003084}
+  {\path{doi:10.1109/oceans.2014.7003084}}.
+
+\bibitem[CCD06]{bib:Claypool-Damaa2006}
+Mark Claypool, Kajal Claypool, and Feissal Damaa.
+\newblock The effects of frame rate and resolution on users playing first
+  person shooter games.
+\newblock {\em Proceedings of SPIE - The International Society for Optical
+  Engineering}, 6071, 01 2006.
+\newblock \href {http://dx.doi.org/10.1117/12.648609}
+  {\path{doi:10.1117/12.648609}}.
+
+\bibitem[CCMDH07]{bib:Mure-Dubois2007}
+James Christian Charles Mure-Dubois and Heinz Hügli.
+\newblock Optimized scattering compensation for time-of-flight camera - art.
+  no. 67620h.
+\newblock September 2007.
+\newblock \href {http://dx.doi.org/10.1117/12.733961}
+  {\path{doi:10.1117/12.733961}}.
+
+\bibitem[CCMDH09]{bib:Mure-Dubois2009}
+James Christian Charles Mure-Dubois and Heinz Hügli.
+\newblock Time-of-flight imaging of indoor scenes with scattering compensation.
+\newblock January 2009.
+
+\bibitem[Cre88]{bib:Creath88}
+Katherine Creath.
+\newblock V phase-measurement interferometry techniques.
+\newblock {\em Progress in optics, 26}, 1988.
+
+\bibitem[CT81]{bib:CookTorrance1981}
+Robert~L. Cook and Kenneth~E. Torrance.
+\newblock A reflectance model for computer graphicsa reflectance model for
+  computer graphics.
+\newblock In {\em {ACM} {SIGGRAPH} 1981}, 1981.
+
+\bibitem[FSK{\etalchar{+}}14]{bib:Freedman2014}
+Daniel Freedman, Yoni Smolin, Eyal Krupka, Ido Leichter, and Mirko Schmidt.
+\newblock {SRA}: Fast removal of general multipath for {ToF} sensors.
+\newblock In {\em Computer Vision {\textendash} {ECCV} 2014}, pages 234--249.
+  Springer International Publishing, 2014.
+\newblock \href {http://dx.doi.org/10.1007/978-3-319-10590-1_16}
+  {\path{doi:10.1007/978-3-319-10590-1_16}}.
+
+\bibitem[GVS18]{bib:Giancola2018}
+Silvio Giancola, Matteo Valenti, and Remo Sala.
+\newblock {\em A Survey on 3D Cameras: Metrological Comparison of
+  Time-of-Flight, Structured-Light and Active Stereoscopy Technologies}.
+\newblock Springer-Verlag GmbH, 2018.
+
+\bibitem[HF14]{bib:Hertzberg2014}
+Christoph Hertzberg and Udo Frese.
+\newblock Detailed modeling and calibration of a time-of-flight camera.
+\newblock In {\em Proceedings of the 11th International Conference on
+  Informatics in Control, Automation and Robotics}. {SCITEPRESS} - Science and
+  and Technology Publications, 2014.
+\newblock \href {http://dx.doi.org/10.5220/0005067205680579}
+  {\path{doi:10.5220/0005067205680579}}.
+
+\bibitem[Jen96]{bib:Jensen96}
+Henrik~Wann Jensen.
+\newblock Global illumination using photon maps.
+\newblock In {\em Proceedings of the Seventh Eurographics Workshop on
+  Rendering}, 1996.
+
+\bibitem[JL10]{bib:Jamtsho2010}
+Sonam Jamtsho and Derek Lichti.
+\newblock Modelling scattering distortion in 3d range camera.
+\newblock {\em International Archives of Photogrammetry, Remote Sensing and
+  Spatial Information Sciences}, 38, January 2010.
+
+\bibitem[Kaj86]{bib:Kajiya1986}
+James~T. Kajiya.
+\newblock The rendering equation.
+\newblock In {\em Proceedings of the 13th annual conference on Computer
+  graphics and interactive techniques (SIGGRAPH) 1986, ACM Press}, 1986.
+
+\bibitem[Kel15]{bib:Keller2015}
+Maik Keller.
+\newblock {\em Real-time Simulation of Time-of-Flight Sensors and Accumulation
+  of Range Camera Data}.
+\newblock PhD thesis, University of Siegen, 2015.
+
+\bibitem[Lam60]{bib:Lambert1760}
+J.~H. Lambert.
+\newblock {\em Photometria Sive De Mensura Et Gradibus Luminis, Colorum Et
+  Umbrae}.
+\newblock Eberhard Klett, 1760.
+
+\bibitem[LHK15]{bib:Lambers2015}
+Martin Lambers, Stefan Hoberg, and Andreas Kolb.
+\newblock Simulation of time-of-flight sensors for evaluation of chip layout
+  variants.
+\newblock {\em {IEEE} Sensors Journal}, 15(7):4019--4026, jul 2015.
+\newblock \href {http://dx.doi.org/10.1109/jsen.2015.2409816}
+  {\path{doi:10.1109/jsen.2015.2409816}}.
+
+\bibitem[Li14]{bib:Li2014}
+Larry Li.
+\newblock Time-of-flight camera - an introduction.
+\newblock {\em Texas Instruments-Technical White Paper}, 2014.
+
+\bibitem[Mei12]{bib:Meister2012PhotonMB}
+Stephan Meister.
+\newblock Photon mapping based simulation of multipath reflection artifacts in
+  time-of-flight sensors.
+\newblock 2012.
+
+\bibitem[MNK13]{bib:Meister2013}
+Stephan Meister, Rahul Nair, and Daniel Kondermann.
+\newblock Simulation of time-of-flight sensors using global illumination, 2013.
+\newblock \href {http://dx.doi.org/10.2312/pe.vmv.vmv13.033-040}
+  {\path{doi:10.2312/pe.vmv.vmv13.033-040}}.
+
+\bibitem[MPBM03]{bib:Matusik2003}
+Wojciech Matusik, Hanspeter Pfister, Matt Brand, and Leonard McMillan.
+\newblock A data-driven reflectance model.
+\newblock {\em ACM Transactions on Graphics}, 22(3):759--769, July 2003.
+
+\bibitem[MSMJYBMC17]{bib:Munoz-Salinas2017}
+Rafael Muñoz-Salinas, Manuel~J. Marin-Jimenez, Enrique Yeguas-Bolivar, and
+  R.~Medina-Carnicer.
+\newblock Mapping and localization from planar markers.
+\newblock {\em Pattern Recognition}, 73:158--171, January 2017.
+\newblock \href {http://dx.doi.org/10.13140/RG.2.2.31751.65440}
+  {\path{doi:10.13140/RG.2.2.31751.65440}}.
+
+\bibitem[NML{\etalchar{+}}13]{bib:Nair2013}
+Rahul Nair, Stephan Meister, Martin Lambers, Michael Balda, Hannes Hofmann,
+  Andreas Kolb, Daniel Kondermann, and Bernd Jähne.
+\newblock Ground truth for evaluating time of flight imaging.
+\newblock In {\em Lecture Notes in Computer Science}, pages 52--74. Springer
+  Berlin Heidelberg, 2013.
+
+\bibitem[ON94]{bib:OrenNayar1994}
+Michael Oren and Shree~K. Nayar.
+\newblock Generalization of lamberts reflectance model.
+\newblock {\em SIGGRAPH}, 1994.
+
+\bibitem[Pad09]{bib:Padley2009}
+Paul Padley.
+\newblock {\em Waves and Optics}.
+\newblock 2009.
+
+\bibitem[PHJ16]{bib:Pharr2016}
+Matt Pharr, Greg Humphreys, and Wenzel Jakob.
+\newblock {\em Physically Based Rendering}.
+\newblock Elsevier LTD, Oxford, 2016.
+
+\bibitem[PRS{\etalchar{+}}10]{bib:Parker2010}
+Steven~G. Parker, Austin Robison, Martin Stich, James Bigler, Andreas Dietrich,
+  Heiko Friedrich, Jared Hoberock, David Luebke, David McAllister, Morgan
+  McGuire, and Keith Morley.
+\newblock Optix: A general purpose ray tracing engine.
+\newblock In {\em {ACM} {SIGGRAPH} 2010 papers on - {SIGGRAPH}}. {ACM} Press,
+  2010.
+\newblock \href {http://dx.doi.org/10.1145/1833349.1778803}
+  {\path{doi:10.1145/1833349.1778803}}.
+
+\bibitem[RRMSMC18]{bib:Ramirez2018}
+Francisco Romero~Ramirez, Rafael Muñoz-Salinas, and Rafael Medina-Carnicer.
+\newblock Speeded up detection of squared fiducial markers.
+\newblock {\em Image and Vision Computing}, 76, 06 2018.
+\newblock \href {http://dx.doi.org/10.1016/j.imavis.2018.05.004}
+  {\path{doi:10.1016/j.imavis.2018.05.004}}.
+
+\bibitem[SGJMSMCMC15]{bib:Garrido-Jurado2015}
+Sergio S.~Garrido-Jurado, Rafael Muñoz-Salinas, Francisco Madrid-Cuevas, and
+  Rafael Medina-Carnicer.
+\newblock Generation of fiducial marker dictionaries using mixed integer linear
+  programming.
+\newblock {\em Pattern Recognition}, 51, 10 2015.
+\newblock \href {http://dx.doi.org/10.1016/j.patcog.2015.09.023}
+  {\path{doi:10.1016/j.patcog.2015.09.023}}.
+
+\bibitem[SHWH18]{bib:Su2018}
+Shuochen Su, Felix Heide, Gordon Wetzstein, and Wolfgang Heidrich.
+\newblock Deep end-to-end time-of-flight imaging.
+\newblock In {\em 2018 {IEEE}/{CVF} Conference on Computer Vision and Pattern
+  Recognition}. {IEEE}, jun 2018.
+\newblock \href {http://dx.doi.org/10.1109/cvpr.2018.00668}
+  {\path{doi:10.1109/cvpr.2018.00668}}.
+
+\bibitem[TMT13]{bib:Teichman2013}
+Alex Teichman, Stephen Miller, and Sebastian Thrun.
+\newblock Unsupervised intrinsic calibration of depth sensors via slam.
+\newblock In {\em Robotics: Science and Systems 2013}, 06 2013.
+\newblock \href {http://dx.doi.org/10.15607/RSS.2013.IX.027}
+  {\path{doi:10.15607/RSS.2013.IX.027}}.
+
+\bibitem[TS67]{bib:TorranceSparrow1967}
+Kenneth~E. Torrance and Ephraim~M. Sparrow.
+\newblock Theory of off-specular reflection from roughened surfaces.
+\newblock {\em Journal of the Optical Society of America}, 1967.
+
+\bibitem[VMFGAL{\etalchar{+}}17]{bib:Villena-Martinez2017}
+V{\'{\i}}ctor Villena-Mart{\'{\i}}nez, Andr{\'{e}}s Fuster-Guill{\'{o}}, Jorge
+  Azor{\'{\i}}n-L{\'{o}}pez, Marcelo Saval-Calvo, Jeronimo Mora-Pascual, Jose
+  Garcia-Rodriguez, and Alberto Garcia-Garcia.
+\newblock A quantitative comparison of calibration methods for {RGB}-d sensors
+  using different technologies.
+\newblock {\em Sensors}, 17(2):243, jan 2017.
+\newblock \href {http://dx.doi.org/10.3390/s17020243}
+  {\path{doi:10.3390/s17020243}}.
+
+\bibitem[WS17]{bib:Wasenmueller2017}
+Oliver Wasenmüller and Didier Stricker.
+\newblock Comparison of kinect v1 and v2 depth images in terms of accuracy and
+  precision.
+\newblock In {\em Computer Vision {\textendash} {ACCV} 2016 Workshops}, pages
+  34--45. Springer International Publishing, 2017.
+\newblock \href {http://dx.doi.org/10.1007/978-3-319-54427-4_3}
+  {\path{doi:10.1007/978-3-319-54427-4_3}}.
+
+\bibitem[Wya82]{bib:Wyant82}
+James~C. Wyant.
+\newblock Interferometric optical metrology-basic principles and new systems.
+\newblock {\em Laser Focus with Fiberoptic Technology}, 1982.
+
+\bibitem[Wyn00]{bib:Wynn2000}
+Chris Wynn.
+\newblock An introduction to brdf-based lighting.
+\newblock Technical report, NVIDIA Corporation, 2000.
+
+\end{thebibliography}

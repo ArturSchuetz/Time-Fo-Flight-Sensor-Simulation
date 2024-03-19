@@ -1,0 +1,510 @@
+\documentclass[thesis.tex]{subfiles}
+\begin{document}
+
+\chapter{Grundlagen}
+\label{chap:prerequisites}
+
+Dieses Kapitel befasst sich mit den zugrundeliegenden Prinzipien, die dafür benötigt werden, die folgenden Kapitel der Arbeit zu verstehen.
+
+\section{Physikalisch basiertes Rendering}
+
+\begin{figure}[ht!]
+    \centering
+    \includepdftex{reflection_introduction}
+    \caption{Licht wird zu einem Anteil an einer Oberfläche reflektiert und erreicht den Betrachter.}
+    \label{fig:reflection_introduction}
+\end{figure}
+
+Menschen nehmen Oberflächen als sichtbar wahr, wenn sie von einer Lichtquelle bestrahlt werden. Dieses Licht wird an der Oberfläche reflektiert und im Auge von Zapfen oder Stäbchen absorbiert (siehe \autoref{fig:reflection_introduction}). Licht ist dabei eine Form von elektromagnetischer Strahlung, die sowohl Welleneigenschaften als auch Teilcheneigenschaften besitzt. Physikalisch basiertes Rendering hat das Ziel das Verhalten von Licht unter Berücksichtigung physikalsicher Eigenschaften der Oberflächen möglichst physikalisch plausibel zu simulieren. 
+
+Das folgende Unterkapitel erläutert einige Grundlagen des physikalisch basierten Renderings und bezieht sich dabei größtenteils auf die Arbeit von Pharr et al. \cite{bib:Pharr2016} und konzentriert sich auf Themen, die für den Rest der Arbeit wichtig sind. Dafür werden zunächst die Strahlungsquellen erläutert und anschließend die verwendeten Modelle zur Berechnung der Reflexionseigenschaften von Oberflächen beschrieben.
+
+\subsection{Radiometrische Größen}
+
+\begin{figure}[ht!]
+    \centering
+    \includepdftex{steradiant}
+    \caption{Der Steradiant ist eine Maßeinheit für den Raumwinkel. Auf einer Kugel mit einem Radius von $r$ umschließt ein Steradiant eine Fläche von 1 $r^2$.}
+    \label{fig:steradiant}
+\end{figure}
+
+Zunächst werden die wichtigsten physikalischen Größen und ihre Relation zueinander erläutert. Dabei ist anzumerken, dass es für jede Größe sowohl radiometrische als auch photometrische Bezeichnungen gibt. In der Radiometrie werden elektromagnetische Strahlungen gemessen, während die Photometrie ihren Fokus auf die Betrachtung des sichtbaren Lichts legt. Im Rahmen dieser Arbeit werden die radiometrischen Bezeichnungen verwendet.
+
+Einige der Größen werden über einen \emph{Raumwinkel} oder \emph{solid angle} $\omega$, dem 3D Äquivalent zum Bogenwinkel im 2D Raum, gemessen. Der Raumwinkel beschreibt den Flächeninhalt $A$ im Verhältnis zum Quadrat des Radius der Kugel und wird in \emph{Steradiant} $sr$ angegeben:
+\begin{equation}
+\omega = \frac{A}{r^2}[sr].
+\end{equation}
+
+Der volle Raumwinkel entspricht der Oberfläche der gesamten Einheitskugel, also $4 \pi sr$.
+Wenn über eingehende oder ausgehende Strahlung auf einer Fläche gesprochen wird, dann wird die Strahlung in Relation zur Fläche auf der Sphäre gemessen, die von der Strahlung durchstoßen wird. Da eine einzige Richtung eine unendlich kleine Fläche auf der Sphäre durchstößt, verwendet man den \emph{differentialen Raumwinkel} oder \emph{differential solid angle} $\mathrm{d}\omega$, um einen infestimalen Bereich von Richtungen zu beschreiben.
+Wie auch in anderen Arbeiten wird das Symbol $\omega$ für die normalisierte Richtung und $\mathrm{d}\omega$ für den differentialen Raumwinkel verwendet, wenn er über eine Kugeloberfläche integriert wird \cite{bib:Wynn2000}. Abschließend sei angemerkt, dass alle Richtungen $\omega$ in normalisierten sphärischen Koordinaten angegeben werden können. So lässt sich eine Richtung $\omega$ auch als Kombination von Polarwinkel $\phi$ und Azimutwinkel $\theta$ beschreiben.
+
+Im Falle eines Time-of-Flight Sensors wird Infrarotstrahlung mittels LED's in einem bestimmten Wellenlängenspektrum erzeugt. Die \emph{Strahlungsmenge} oder \emph{Radiant Energy} $Q$ bezeichnet den gesamten Energieverlust, den die Quelle durch die Strahlung erleidet. Eine Strahlungsquelle emittiert permanent Photonen, die jeweils eine Energie von 
+\begin{equation}
+E_{p} = \frac{h \cdot c}{\lambda}
+\end{equation}
+enthalten. Die Strahlungsmenge ist entsprechend die Summe der Energie aller Photonen, die durch den Emitter ausgestrahlt werden. $h$ ist hierbei die Planck Konstante, $c$ die Lichtgeschwindigkeit und $\lambda$ die Wellenlänge des emittierten Photons.
+
+\begin{figure}[ht!]
+\centering
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includepdftex{radiant_flux}
+\caption{Strahlungsfluß $\Phi$}
+\label{fig:radiant_flux}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includepdftex{radiant_intensity}
+\caption{Strahlungsintensität $I$}
+\label{fig:radiant_intensity}
+\end{subfigure}
+\caption{Schematische Darstellung des Strahlungsflusses $\Phi$ und der Strahlungsintensität $I$.}
+\end{figure}
+
+Der \emph{Strahlungsfluss} oder \emph{Radiant Flux} $\Phi$  bezeichnet die Strahlungsmenge, die pro Zeit von einer Punktquelle emittiert wird 
+\begin{equation}
+\Phi = \frac{\mathrm{d}Q}{\mathrm{d}t}
+\end{equation}
+und in $Watt$ angegeben wird (siehe \autoref{fig:radiant_flux}). 
+
+Die \emph{Strahlungsintensität} oder \emph{Radiant Intensity} $I$ gibt an, wie viel Strahlung pro Raumwinkel vom Emitter ausgeht (siehe \autoref{fig:radiant_intensity}) 
+\begin{equation}
+I = \frac{\mathrm{d}\Phi}{\mathrm{d}\omega}.
+\end{equation}
+
+Das ist besonders nützlich, um zu beschreiben, in welche Richtung die Quelle mehr oder weniger Strahlung emittiert. Dies wird in $\frac{Watt}{sr}$ angegeben.
+
+\begin{figure}[ht!]
+\centering
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includepdftex{irradiance}
+\caption{Bestrahlungsstärke $E$}
+\label{fig:irradiance}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includepdftex{radiance}
+\caption{Strahlungsdichte $L$}
+\label{fig:radiance}
+\end{subfigure}
+\caption{Schematische Darstellung des Bestrahlungsstärke $E$ und der Strahlungsdichte $L$.}
+\end{figure}
+
+Die \emph{Bestrahlungsstärke} oder \emph{Irradiance} $E$ gibt an, wie viel Strahlung beim Empfänger pro infestimaler Fläche $\mathrm{d}A$ ankommt
+\begin{equation}
+E = \frac{\mathrm{d}\Phi_{in}}{\mathrm{d}A}
+\end{equation}
+(siehe \autoref{fig:irradiance}). Dem gegenüber steht die \emph{Radiosität} oder \emph{Radiosity} $B$, die mit derselben Formel aussagt, wie viel Strahlung einen Emitter pro Fläche $\mathrm{d}A$ verlässt: 
+\begin{equation}
+B = \frac{\mathrm{d}\Phi_{out}}{\mathrm{d}A}.
+\end{equation}
+
+Beide Größen werden in $\frac{Watt}{m^2}$ angegeben (siehe \autoref{fig:radiance}). 
+
+Die letzte und wichtigste radiometrische Größe ist die \emph{Strahlungsdichte} oder \emph{Radiance} $L$. Die Strahlungsdichte gibt an, wie viel Strahlung von einem gegebenen Punkt der Strahlungsquelle in eine Richtung ausgesendet wird. Sie wird definiert als der versendete Strahlungsfluss $\mathrm{d}\Phi$ pro sichtbarer Empfängerfläche $\mathrm{d}A \cos\theta$ und Raumwinkel $\mathrm{d}\omega$
+\begin{equation}
+L = \frac{\mathrm{d}\Phi}{\mathrm{d}A \cdot \cos \theta \cdot \mathrm{d}\omega}
+\end{equation}
+und in $\frac{Watt}{m^2sr}$ angegeben.
+
+\subsection{Definition der verwendeten Lichtquellen}
+
+Bei einem \emph{Punktlicht} handelt es sich um eine Strahlungsquelle ohne räumliche Ausdehnung. Die Quelle ist also unendlich klein, hat keine Oberfläche und emittiert in alle Richtungen gleichmäßig viel Strahlung. Die Bestrahlungsstärke nimmt quadratisch mit dem Abstand zur Strahlungsquelle ab. Außerdem ist die Bestrahlungsstärke zusätzlich vom Winkel $\theta$ zwischen der Normale der bestrahlten Oberfläche und der Bestrahlungsrichtung abhängig, da die \glq gesehene\grq{} Fläche mit einem größeren Winkel zwischen Flächennormale und Strahlungsrichtung an Ausdehnung abnimmt. Somit lässt sich die Bestrahlungsstärke durch ein Punktlicht entsprechend des photometrischen Entfernungsgesetzes folgendermaßen bestimmen:
+\begin{equation}
+E = \frac{I \cdot \cos\theta}{d^2}.
+\end{equation}
+
+Darüber hinaus werden im Rahmen dieser Arbeit außerdem \emph{Lambert Emitter} als Strahlungsquellen verwendet. Bei Lambert Emittern handelt es sich um eine Strahlungsquelle, die von jedem Blickwinkel aus gleich hell erscheint. Dies resultiert in einer cosinusgewichteten Intensitätsverteilung, was darauf zurückzuführen ist, dass sich bei einem größeren Betrachtungswinkel $\theta$ ebenfalls die \glq gesehene\grq{} Fläche verringert und die Strahlungsdichte deshalb konstant bleibt:
+\begin{equation}
+I(\theta) = \cos\theta \cdot I_0.
+\end{equation}
+
+\subsection{Bidirektionale Reflexionsverteilungsfunktion}
+
+Eine \emph{bidirektionale Reflexionsverteilungsfunktion} oder \emph{Bidirectional Reflectance Distribution Function} definiert die Reflexionseigenschaften von Oberflächen unterschiedlicher Materialien. Mit Hilfe der oben beschriebenen Größen ist es möglich zu sagen, dass eine bidirektionale Reflexionsverteilungsfunktion ein Material beschreibt, indem es das Verhältnis von eingehender Bestrahlungsstärke $\mathrm{d}E$ aus Richtung $\omega_i$ zur ausgehenden Strahlungsdichte $\mathrm{d}L$ in eine Richtung $\omega_o$ an der Oberfläche beschreibt
+\begin{equation}
+f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) = \frac{\mathrm{d}L_o(\mathrm{x}, \omega_o, \lambda)}{\mathrm{d}E(\mathrm{x}, \omega_i, \lambda)}
+= \frac{\mathrm{d}L_o(\mathrm{x}, \omega_o, \lambda)}{\mathrm{d}L_i(\mathrm{x}, \omega_i, \lambda) \cdot \cos\theta_i \cdot \mathrm{d}\omega_i}.
+\end{equation}
+
+Bidirektionale Reflexionsverteilungsfunktionen, im Folgenden mit BRDF abgekürzt, sind wellenlängenabhängig und beschreiben für jede Wellenlänge ein anderes Verhältnis. Im Rahmen dieser Arbeit wird die BRDF allerdings nicht für das gesamte Spektrum definiert, sondern es wird nur mit RGB Werten gearbeitet und die Funktion wird nur für die Farben Rot, Grün und Blau und ausgewählte Infrarotwellenlängen ausgewertet.
+
+Theoretisch lässt sich mit einer BRDF jedes beliebige Verhalten eines Materials beschreiben. Da in der vorliegenden Untersuchung auf ein physikalisch plausibles Verhalten der Oberflächen Wert gelegt wird, unterliegen die BRDF einigen Einschränkungen. Man spricht von einer physikalisch plausiblen BRDF, wenn sie die folgenden Eigenschaften erfüllt:
+\begin{enumerate}
+    \item Sie ist nicht negativ: 
+    \begin{equation}
+    f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) \geq 0.
+    \end{equation}
+    \item Sie erfüllt den Energieerhaltungssatz. Das bedeutet, dass die gesamte reflektierte Strahlung der Oberfläche nicht die Bestrahlungsstärke, die auf die Oberfläche einwirkt, überschreiten darf \cite{bib:Wynn2000}:
+    \begin{equation}
+    \forall\omega_i : \int\limits_{2\pi\,sr} f_r(\mathrm{x}, \omega_i, \omega_o, \lambda)\cos\theta_o\, \mathrm{d}\omega \leq 1.
+    \end{equation}
+    \item Sie erfüllt die Helmholtz Reziprozität, die besagt, dass der Strahlungsfluss sowohl vorwärts als auch rückwärts identische Ergebnisse liefert. Das bedeutet, dass die BRDF unverändert bleibt, auch wenn die Strahlungsquelle und der Betrachter vertauscht werden: 
+    \begin{equation}
+    f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) = f_r(\mathrm{x}, \omega_o, \omega_i, \lambda).
+    \end{equation}
+\end{enumerate}
+
+\subsection{BRDF Modelle}\label{chap:brdf_models}
+
+Es gibt grundsätzlich zwei Möglichkeiten, um eine BRDF zu repräsentieren. Zum einen besteht die Möglichkeit des Einmessens einer Probe mittels Gonioreflektometer und Speicherns der Messergebnisse in einer Matrix in Abhängigkeit zum Einfalls- und Ausfallswinkel der Strahlung. Diese eingemessenen BRDFs sind in Datenbanken erfasst und können zum Rendern von Objekten verwendet werden, z. B. \cite{bib:Matusik2003}. Zum anderen können BRDFs mittels analytischer Funktionen approximiert werden. Letztere Vorgehensweise ist die gängigste, da das Einmessen zu einem nicht unerheblichen Datenvolumen führt.
+
+Bei der Lambert BRDF handelt es sich um eine der einfachsten und grundlegendsten Beschreibungen einer Oberflächenreflexion, die ausschließlich diffuse Reflexionen beschreibt. Sie wurde von Lambert \cite{bib:Lambert1760} vor mehr als 200 Jahren entwickelt und ist das meist genutzte BRDF Modell in der Computergrafik. Dabei wird die Oberfläche durch Bestrahlung selbst zu einem Lambert Emitter, erscheint von allen betrachteten Richtungen aus gleich hell und wird \emph{Lambertscher Reflektor} genannt: 
+\begin{equation}
+f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) = \frac{\rho(\lambda)_d}{\pi}.
+\end{equation}
+
+Bei $\rho(\lambda)_d$ handelt es sich um den Reflexionsgrad, der für jede Wellenlänge jeweils einen Wert zwischen 0 und 1 annimmt und als konstantes Verhältnis zwischen dem gesamten eingehenden und dem gesamten ausgehenden Strahlungsfluss für diese Wellenlänge definiert wird
+\begin{equation}
+\rho(\lambda)_d = \frac{\Phi_{out}}{\Phi_{in}} = \frac{B}{E}.
+\end{equation}
+
+BRDFs können als gewichtete Summe kombiniert werden. Daher lassen sie sich in Komponenten aufteilen, mit denen jeder Aspekt einzeln beschrieben werden kann \cite{bib:TorranceSparrow1967}. Eine Lambert BRDF wird daher häufig mit anderen BRDFs kombiniert, die den spiegelnden Anteil beschreiben. Dabei ist darauf zu achten, dass die Kombination der BRDFs die oben genannten Kriterien zur physikalischen Plausibilität erfüllt. So bestehen die BRDFs, die in dieser Arbeit verwendet werden, aus einer diffusen $f_d$ und einer spekularen Komponente $f_s$, deren gewichtete Summe die resultierende BRDF ergibt:
+\begin{equation}
+f_r = sf_s + kf_d \mid s+k=1.\label{eq:spec_and_diff_combination}
+\end{equation}
+
+Ein Beispiel für eine Definition eines Glanzlichtanteils wäre die BRDF für eine perfekt spiegelnde Oberfläche, die mittels der Dirac-Delta-Funktion beschrieben wird und überall, mit Ausnahme des reflektierten Strahls, den Wert 0 annimmt,
+\begin{equation}
+f_r(\omega_i, \omega_o) = f_r(\theta_i, \phi_i, \theta_o, \phi_o) = \frac{\delta(\theta_i-\theta_o) \cdot \delta(\phi_i + \pi - \phi_o)}{\sin\theta_i \cos\theta_i}
+\label{eq:specular_reflection}\end{equation}
+\begin{equation}
+\delta(\mathrm{x}) = 
+\begin{cases}
+\!\begin{aligned}[t]
+\infty, x &= 0\\
+0, x &\neq 0
+\end{aligned}
+\end{cases}\tag*{}
+\end{equation}
+und folgende Bedingungen erfüllt: 
+\begin{equation}
+\int\limits_{-\infty}^{\infty} \delta(\mathrm{x}) \mathrm{d}\mathrm{x} = 1.
+\end{equation}
+
+Das Verhältnis zwischen diffuser und spiegelnder Reflexion kann mittels des Fresnel Reflexionsgrades $F(\theta)$ bestimmt werden. Der Fresnel Reflexionsgrad wird häufig mit transparenten Oberflächen in Verbindung gebracht, um den Anteil zwischen Reflexion und Transmission zu bestimmen. Dies ist ebenfalls auf opake Materialien anwendbar, da sich wie im Falle von Plastik Pigmente im Material befinden, die den Transmissionsanteil wiederum diffus reflektieren \cite{bib:CookTorrance1981}. Das Verhältnis von Reflexion und Transmission ist abhängig von dem Brechungsindex des jeweiligen Mediums und dem Einfallswinkel der Strahlung. Außerdem beeinflusst die Polarisation der Strahlung dessen Reflexionsverhalten, weshalb die Berechnung der Fresnel Reflexion mit einem parallelen und einem orthogonalen Anteil vorgenommen wird.
+
+Der Reflexionsgrad besteht aus dem parallelen Anteil
+\begin{equation}
+r_\parallel = \frac{\eta_2\cos\theta_1 - \eta_1\cos\theta_2}{\eta_2\cos\theta_1+\eta_1\cos\theta_2}
+\end{equation}
+und dem orthogonalen Anteil,
+\begin{equation}
+r_\perp = \frac{\eta_1 \cos\theta_1 - \eta_2\cos\theta_2}{\eta_2\cos\theta_1+\eta_1\cos\theta_2},
+\end{equation}
+während dessen Summe den Reflexionsgrad für unpolarisierte Strahlung ergibt 
+\begin{equation}
+F_r(\theta_i) = \frac{1}{2}(r_\parallel^2 + r_\perp^2).
+\label{eq:fresnel_sum}
+\end{equation}
+
+Hierbei ist $\eta_1$ die optische Dichte des Mediums, in der sich die Strahlung vor der Transmission befindet, während $\eta_2$ die optische Dichte des Mediums angibt, in die die Strahlung eindringt. Während dielektrische Materialien die Strahlung entsprechend des Fresnel Reflexionsgrades entweder diffus oder vollständig spiegelnd reflektieren, weisen Konduktoren ein besonderes Reflexionsverhalten auf, da sie zum einen keinerlei diffuse Reflexionseigenschaften haben und zum anderen ein Teil der Strahlung, abhängig von der Wellenlänge, absorbiert wird. Der Reflexionsgrad für Konduktoren wird aus dem parallelen Anteil
+\begin{equation}
+r_\parallel^2 = \frac{(\eta^2 + k^2)\cos^2\theta_i - 2\eta\cos\theta_i + 1}{(\eta^2 + k^2)\cos^2\theta_i + 2\eta\cos\theta_i + 1}
+\end{equation}
+und einem orthogonalen Anteil
+\begin{equation}
+r_\perp^2 = \frac{(\eta^2 + k^2)-2\eta\cos\theta_i+\cos^2\theta_i}{(\eta^2 + k^2)+2\eta\cos\theta_i+\cos^2\theta_i}
+\end{equation}
+berechnet. Hierbei ist $\eta$ der Brechungsindex des Materials, während es sich bei $k$ um den Absorptionskoeffizienten handelt. Der Reflexionsgrad unpolarisierter Strahlung lässt sich ebenfalls mittels \autoref{eq:fresnel_sum} bestimmen.
+
+Die oben beschriebene BRDF ist geeignet, um glatte Oberflächen zu approximieren. Das Ergebnis weicht allerdings stark von den Reflexionsverhalten rauer Oberflächen ab, weshalb im Rahmen dieser Arbeit sowohl für den diffusen als auch für den spekularen Anteil \emph{Mikrofacetten Modelle} zur Simulation rauer Oberflächenstrukturen verwendet werden. Bei Mikrofacetten BRDFs handelt es sich um Beleuchtungsmodelle, die auf physikalisch basierten Modellen aufbauen. Dabei wird die Oberfläche durch viele kleinere zufällig orientierte Facetten modelliert, was die Simulation der Rauheit und der Abschattung ermöglicht.
+
+\subsubsection{Cook-Torrance BRDF/Torrance-Sparrow BRDF}\label{chap:cook_torrance}
+
+Torrance und Sparrow \cite{bib:TorranceSparrow1967} präsentierten 1967 erstmals ein Model zur Berechnung des spiegelnden Anteils rauer Oberflächen, woraufhin Cook und Torrance \cite{bib:CookTorrance1981} 1981 darauf aufbauend ein allgemeines lokales Beleuchtungsmodell entwickelten
+\begin{equation}
+f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) = \frac{F_r(\omega_h) D(\omega_h) G(\omega_o,\omega_i)}{4 \cos\theta_i \cos\theta_o}.\label{eq:CookTorrance}
+\end{equation}
+
+Es sei anzumerken, dass es sich bei \autoref{eq:CookTorrance} um die Variante von Pharr et al. \cite{bib:Pharr2016} bzw. die von Torrance und Sparrow \cite{bib:TorranceSparrow1967} handelt, da die ursprüngliche Gleichung der Arbeit von Cook und Torrance gegen den Energieerhaltungssatz verstößt. Die \autoref{eq:CookTorrance} besteht aus dem in \autoref{chap:brdf_models} beschriebenen Fresnelterm $F_r$, einer \emph{Dichtefunktion} $D$ und einem \emph{geometrischen Abschwächungsfaktor} $G$, die im Folgenden im Detail erläutert werden.
+
+\begin{figure}[ht]
+    \centering
+    \includepdftex{microfacetts}
+    \caption{Die Oberfläche einer Mikrofacetten BRDF wird als eine Sammlung von vielen kleinen Facetten dargestellt.}
+    \label{fig:microfacets}
+\end{figure}
+
+Das Mikrofacetten Modell von Torrance und Sparrow geht davon aus, dass die Oberfläche von beispielsweise rauen Metallen oder Plastik aus einer Anzahl vieler kleiner spiegelnder Facetten besteht, dessen Reflexionen jeweils mittels \autoref{eq:specular_reflection} berechnet werden können. Die \autoref{fig:microfacets} stellt schematisch eine spiegelnde Reflexion an einer rauen Oberfläche dar, die mittels Mikrofacetten modelliert wird. Für die Berechnung der direkten Reflexion der rauen Oberfläche sind also nur die Mikrofacetten interessant, dessen Normale mit dem \emph{Halbvektor} $\omega_h$ übereinstimmt, also so orientiert ist, dass die eingehende Strahlung aus Richtung $\omega_i$ in Richtung $\omega_o$ reflektiert wird
+\begin{equation}
+\omega_h = \frac{\omega_o + \omega_i}{\mid\omega_o + \omega_i\mid}.
+\end{equation} 
+
+Die Dichtefunktion $D$ gibt dabei den Anteil der Mikrofacetten an, dessen Normale in Richtung des Halbvektors $\omega_h$ zeigt und frei gewählt werden kann. Torrance und Sparrow \cite{bib:TorranceSparrow1967} schlagen in ihrer Arbeit eine Gaußverteilung vor, während in der Arbeit von Cook und Torrance \cite{bib:CookTorrance1981} eine Beckmannverteilung empfohlen wird, die auch in dieser Arbeit verwendet wird
+\begin{equation}
+D(\omega_h) = \frac{e^{\frac{-tan^2\theta_h}{\alpha^2}}}{\pi\alpha^2\cos^4\theta_h}, \alpha = \sqrt2\sigma.
+\end{equation}
+
+Die \emph{Rauheit} der Oberfläche wird dabei durch die Standardabweichung $\sigma$ der Orientierung der Mikrofacetten definiert \cite{bib:Pharr2016} und wird im Bogenmaß angegeben. 
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includepdftex{microfacet_masking}
+\caption{Maskierung}
+\label{fig:microfacet_masking}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includepdftex{microfacet_shading}
+\caption{Abschattung}
+\label{fig:microfacet_shading}
+\end{subfigure}
+\caption{Die Selbstverschattung und die Maskierung der Oberfläche, die durch Nachbarfacetten verursacht wird und mit dem geometrischen Abschwächungsfaktor approximiert wird.}
+\end{figure}
+
+Der geometrische Abschwächungsfaktor $G$ berücksichtigt die Maskierung (siehe \autoref{fig:microfacet_masking}) und Abschattung (siehe \autoref{fig:microfacet_shading}) einer Facette durch eine Nachbarfacette. Dafür wird angenommen, dass jede spiegelnde Facette ein symmetrisches Gegenstück hat und diese zusammen V-förmige Kerben bilden (\emph{V-cavities}). Der Abschwächungsfaktor wird durch das Verhältnis des Teils der Facette $l-m$, der an der Reflexion beteiligt ist, zu der gesamten Oberfläche $l$, definiert, wobei nur einfache spekulare Reflexionen berücksichtigt und Interreflexionen als perfekt diffus angenommen werden: 
+\begin{equation}
+G(\omega_h) = \min\Big[1, \underbrace{\frac{2(\hat n \cdot \omega_h)(\hat n \cdot \omega_o)}{\omega_o \cdot \omega_h}}_{Maskierung}, \underbrace{\frac{2(\hat n \cdot \omega_h)(\hat n \cdot \omega_i)}{\omega_o \cdot \omega_h}}_{Abschattung}\Big].
+\end{equation}
+
+Das Cook-Torrance Model ist geeignet um Metalle und nichtmetallische Oberflächen ohne diffusen Anteil wie schwarzes Plastik, zu simulieren und die Ergebnisse der Simulation weisen eine starke Übereinstimmung mit realen Messungen auf \cite{bib:TorranceSparrow1967}.
+
+\subsubsection{Oren-Nayar BRDF}
+
+1994 stellten Oren und Nayar \cite{bib:OrenNayar1994} ein lokales Beleuchtungsmodell zur Simulation von rauen diffusen Oberflächen vor, das auf dem Mikrofacetten Modell von Torrance und Sparrow basiert. Oren und Nayar beobachteten durch Experimente, dass sich die wahrgenommene Helligkeit einer rauen Oberfläche abhängig von der Blickrichtung $\omega_o$ erhöht, je mehr sich diese der Beleuchtungsrichtung $\omega_i$ annähert, und damit vom Lambert Modell abweicht, welches Oberflächen unabhängig vom betrachteten Blickwinkel gleich hell erscheinen lässt.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{0.30\textwidth}
+\centering
+\includepdftex{oren_nayar_masking}
+\caption{Maskierung}
+\label{fig:oren_nayar_masking}
+\end{subfigure}
+\begin{subfigure}[b]{0.30\textwidth}
+\centering
+\includepdftex{oren_nayar_shading}
+\caption{Abschattung}
+\label{fig:oren_nayar_shading}
+\end{subfigure}
+\begin{subfigure}[b]{0.30\textwidth}
+\centering
+\includepdftex{oren_nayar_interreflection}
+\caption{Interreflexion}
+\label{fig:oren_nayar_interreflection}
+\end{subfigure}
+\caption{Das Mikrofacetten Modell nach Oren und Nayar \cite{bib:OrenNayar1994}, dessen Blickrichtungsabhängigkeit durch Selbstverschattung, Maskierung und Interreflexionen verursacht wird.}
+\label{fig:oren_nayar_model}
+\end{figure}
+
+Analog zum Mikrofacetten Modell von Torrance und Sparrow basiert das Modell von Oren und Nayar auf vielen kleinen Lambert Facetten und simuliert damit ebenfalls Abschattung und Maskierung durch Nachbarfacetten, erweitert das Modell aber zusätzlich um Interreflexionen zwischen den V-Kerben (siehe \autoref{fig:oren_nayar_model}). Im Gegensatz zu der Cook-Torrance BRDF ist hier die Dichtefunktion nicht frei wählbar und es wird von einer Gaußverteilung der Facettenoberflächen ausgegangen. Da die Auswertung der Verteilung das Integrieren über die Hemisphäre erfordern würde, wurde eine funktionale Approximation angestrebt, die die Eigenschaften
+\begin{equation}
+\begin{aligned}
+f_{direct}(\mathrm{x}, \omega_i, \omega_o, \lambda) = &\frac{\rho(\lambda)_d}{\pi}\Big[C_1(\sigma)+\cos(\phi_o - \phi_i)C_2(\alpha,\beta,\phi_o-\phi_i,\sigma)\tan\beta+\\
+&\Big(1 - \mid\cos(\phi_o-\phi_i)\mid\Big)C_3(\alpha,\beta,\sigma)\tan\Big(\frac{\alpha+\beta}{2}\Big)\Big]
+\end{aligned}
+\label{eq:OrenNayar_full_1}
+\end{equation}
+erfüllt und die Abschattung und Maskierung berechnet, während
+\begin{equation}
+\begin{aligned}
+f_{interreflection}(\mathrm{x}, \omega_i, \omega_o, \lambda) = 0.17\frac{\rho(\lambda)_d^2}{\pi}\frac{\sigma^2}{\sigma^2+0.13}\Big[1-\cos(\phi_o-\phi_i)\Big(\frac{2\beta}{\pi}\Big)^2\Big]
+\end{aligned}
+\label{eq:OrenNayar_full_2}
+\end{equation}
+mit den Koeffizienten
+\begin{equation}
+\begin{align}
+C_1 &= 1 - 0.5\frac{\sigma^2}{\sigma^2+0.33}\\[5pt]
+C_2 &= 
+\begin{cases}
+\!\begin{aligned}[t]
+\quad0.45\frac{\sigma^2}{\sigma^2+0.09}\sin\alpha \qquad\qquad\qquad\;\, &\text{wenn} \cos(\phi_o-\phi_i)\ge0\\
+\quad0.45\frac{\sigma^2}{\sigma^2+0.09}\Big(\sin\alpha-\Big(\frac{2\beta}{\pi}\Big)^3\Big)\quad&\text{sonst}
+\end{aligned}
+\end{cases}\\[5pt]
+C_3 &= 0.125\Big(\frac{\sigma^2}{\sigma^2+0.09}\Big)\Big(\frac{4\alpha\beta}{\pi^2}\Big)^2\\[5pt]
+\alpha &= \max(\theta_i, \theta_o)\\[5pt]
+\beta &= \min(\theta_i, \theta_o)
+\end{align}\tag*{}
+\end{equation}
+die Interreflexionen berechnet. Die BRDF wird mit der Summe beider Terme berechnet:
+\begin{equation}
+f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) = f_{direct}(\mathrm{x}, \omega_i, \omega_o, \lambda) + f_{interreflection}(\mathrm{x}, \omega_i, \omega_o, \lambda).
+\label{eq:OrenNayar_full}
+\end{equation}
+% \begin{equation}
+% f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) = \frac{\rho(\lambda)_d}{\pi}(A+B\max(0, \cos(\phi_i-\phi_o)) \sin\alpha\tan\beta),
+% \end{equation}\label{eq:OrenNayar_fast}
+% mit den Koeffizienten
+% \begin{equation}
+% \begin{align}
+% A &= 1 - \frac{\sigma^2}{2(\sigma^2+0.33)}\\
+% B &= \frac{0.45\sigma^2}{\sigma^2+0.09}\\
+% \alpha &= \max(\theta_i, \theta_o)\\
+% \beta &= \min(\theta_i, \theta_o).
+% \end{align}\tag*{}
+% \end{equation}
+
+Es sei zu beachten, dass für glatte Oberflächen die Koeffizienten $C_2$, $C_3$ und der Interreflexionsanteil einen Wert von 0 annehmen, während $C_1$ einen Wert von 1 annimmt, was dazu führt, dass die BRDF auf das Lambert Modell reduziert wird. 
+
+Die Approximation von Oren und Nayar zeigt, wie auch das Modell von Cook und Torrance, eine hohe Übereinstimmung mit den gemessenen Daten für raue Oberflächen wie Sandpapier, Stoff und Gips. Zusammen mit dem in \autoref{chap:cook_torrance} vorgestellten lokalen Beleuchtungsmodell für spiegelnde Oberflächen bilden die vorgestellten Mikrofacetten Modelle jeweils eine der Komponenten der \autoref{eq:spec_and_diff_combination} für eine gemeinsame BRDF.
+
+\subsection{Rendergleichung}\label{sec:rendering_equation}
+
+\begin{figure}[ht]
+    \centering
+    \includepdftex{rendering_equation}
+    \caption{Schematische Darstellung der Rendergleichung. Die ausgehende Strahlung $L_o$ in Richtung $\omega_o$ wird berechnet durch das Integrieren der eingehenden Strahlung $L_i$ aus allen Richtungen $\omega_i$ über der Hemisphäre.}
+    \label{fig:rendering_equation}
+\end{figure}
+
+Kajiya stellte 1986 \cite{bib:Kajiya1986} die oft zitierte \emph{Rendergleichung} oder auch \emph{Rendering Equation} vor, welche in einer allgemeinen Form die Strahlung an einem Punkt $\mathrm{x}$ in eine Richtung $\omega_o$ beschreibt. Statt der ursprünglichen Formel aus seiner Arbeit wird hier die Rendergleichung in einer äquivalenten Darstellungsform verwendet, da sie den Anwendungsfall in dieser Arbeit anschaulicher beschreibt
+\begin{equation}
+L_o(\mathrm{x}, \omega_o, \lambda) = L_e(\mathrm{x}, \omega_o, \lambda) + \int\limits_{2\pi\,sr} f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) \cdot L_i(\mathrm{x}, \omega_i, \lambda) \cdot \cos\theta_i \, \mathrm{d}\omega_i.
+\end{equation}
+
+Der Emissionsterm $L_e$ beschreibt die Eigenemission der Oberfläche an Punkt $\mathrm{x}$ in Richtung $\omega_o$, falls es sich bei der Oberfläche um eine Strahlungsquelle handelt, während der Term $L_i$ die eingehende Strahlung an dem Punkt $\mathrm{x}$ aus Richtung $\omega_i$ beschreibt. Bei dem Term $f_r$ handelt es sich um die BRDF, wie sie in dem vorangegangenen Unterkapitel beschrieben wurde. Wie \autoref{fig:rendering_equation} schematisch darstellt, wird zur  Berechnung der Strahlung, die in Richtung  $\omega_o$ reflektiert und/oder emittiert wird, die eingehende Strahlung aus allen Richtungen $\omega_i$ über die gesamte Hemisphäre integriert. Es ist anzumerken, dass zur Berechnung des Terms $L_i$ wiederum eine Integration über die gesamte Hemisphäre an dem Punkt notwendig ist, von dem aus die Strahlung emittiert/reflektiert wird, die an Punkt $\mathrm{x}$ aus Richtung $\omega_i$ auftrifft. Es handelt sich dabei also um eine Rekursion und die Beleuchtung an dem Punkt $\mathrm{x}$ ist von der Beleuchtung aller anderen Punkte $\mathrm{x}'$ abhängig, was durch die ursprüngliche Formulierung der Rendergleichung ausgedrückt wird:
+\begin{equation}
+L_r^o(\mathrm{x}, \mathrm{x}') = g(\mathrm{x}, \mathrm{x}') \cdot \Big( L_e^o(\mathrm{x}, \mathrm{x}')+\int\limits_{S} b(\mathrm{x}, \mathrm{x}', \mathrm{x}'')L_i^o(\mathrm{x}', \mathrm{x}'')\mathrm{d}\mathrm{x}'\Big).
+\end{equation}
+
+Hierbei gibt $L_r^o$ an, wie viel Strahlung den Punkt $\mathrm{x}$ aus $\mathrm{x}'$ erreicht, während es sich bei $b$ um eine BRDF handelt, die den Anteil der Strahlung angibt, der den Punkt $\mathrm{x}'$ von $\mathrm{x}''$ erreicht und in Richtung $\mathrm{x}$ reflektiert wird. Bei $g$ handelt es sich um den geometrischen Term, der den Strahlungsabfall durch die gegenseitige Lage der Punkte $\mathrm{x}$ und $\mathrm{x}'$ beschreibt und dem Entfernungsgesetz entspricht. $L_e^o$ beschreibt analog zu $L_e$, wie viel Strahlung, die von $\mathrm{x}'$ emittiert wird, den Punkt $\mathrm{x}$ erreicht. S ist dabei die Vereinigung aller Oberflächen, über die integriert wird.
+
+Im Kontrast zu lokalen Beleuchtungsmodellen, die sich auf die direkte Beleuchtung der Oberfläche durch sichtbare Strahlungsquellen konzentrieren, werden Verfahren, die versuchen die Rendergleichung zu lösen oder zu approximieren, als \emph{globale Beleuchtungsmodelle} bezeichnet.
+
+\subsection{Path Tracing}\label{sec:path_tracing}
+
+In derselben Arbeit, in der Kajiya die Rendergleichung vorstellte, präsentierte er ein Verfahren, um diese mittels der \emph{Monte Carlo Integration} zu lösen. Bei der Monte Carlo Integration handelt es sich um ein Verfahren zur näherungsweisen Lösung eines Integrals durch zufällige Stichproben der Funktion:
+\begin{equation}
+\int\limits_{2\pi\,sr} f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) \cdot L_i(\mathrm{x}, \omega_i, \lambda) \cdot \cos\theta_i \, \mathrm{d}\omega_i \approx \frac{1}{N} \sum \limits_{j=1}^n  \frac{f_r(\mathrm{x}, \omega_i, \omega_o, \lambda) \cdot L_i(\mathrm{x}, \omega_i, \lambda) \cdot \cos\theta_i}{p({\omega_i})}.
+\end{equation}
+
+Die Schätzung des Integrals erhält man durch das Auswerten der Funktion mit einer Dichte von $p({\omega_i})$ und der Mittelung dieser Werte. Die Dichte $p({\omega_i})$ kann zwar beliebig gewählt werden, ähnelt allerdings im Optimalfall der auszuwertenden Funktion, denn je näher $p({\omega_i})$ der auszuwertenden Funktion ähnelt, desto schneller konvergiert das arithmetische Mittel gegen das tatsächliche Integral der Funktion, während, auch bei schlecht gewählten Dichtefunktionen, mit zunehmender Anzahl an Stichproben die Schätzung des Integrals genauer wird. Falls der Verlauf der Funktion unbekannt ist, kann daher auch eine konstante Dichte $p({\omega_i}) = 1$ bei gleichzeitig hoher Anzahl an Stichproben gewählt werden.
+
+Die Implementierung des \emph{Path Tracing} Algorithmus simuliert den Weg der Photonen von der Strahlungsquelle zum Betrachter, indem der Pfad von dem Sensor zur Quelle zurückverfolgt wird. Statt also Strahlen zu berechnen, die ihren Ursprung in der Strahlungsquelle haben und entweder direkt oder durch Reflexionen über Oberflächen auf den Sensor treffen, werden für jeden Pixel des zu berechnenden Bildes mehrere Strahlen vom Betrachter aus in die Szene geschickt und der Weg zur Strahlungsquelle zurückverfolgt. Dafür wird bei jedem Schnittpunkt eines Strahls anhand einer Oberfläche getestet, ob diese von einer oder mehreren Strahlungsquellen bestrahlt wird, woraufhin deren anteilige Reflexion in die Richtung des Strahlenursprungs berechnet wird. Für jeden Schnittpunkt des Strahls mit einer Oberfläche wird anschließend ein neuer Strahl in eine zufällige Richtung erzeugt, dessen neuer Ursprung der berechnete Schnittpunkt ist. Dies wird rekursiv so lange wiederholt, bis eine Terminierungsbedingung, z. B. eine maximale Pfadlänge, erfüllt wird. Abhängig von der Szene, der BRDF und der gewählten Dichte $p({\omega_i})$ kann die Berechnung des Ergebnisses eine hohe Anzahl an Strahlen erfordern, was in einer langen Berechnungszeit resultiert.
+
+Die Implementierung des Algorithmus wird im Detail in \autoref{chap:simulation} erläutert, sodass in diesem Unterkapitel nicht weiter darauf eingegangen wird. 
+
+\section{Tiefenwerte durch Time-of-Flight}\label{chap:time_of_flight}
+
+\begin{figure}[ht]
+    \centering
+    \includepdftex{tof_concept}
+    \caption{Grundlegendes Konzept eines Time-of-Flight Tiefensensors.}
+    \label{fig:tof_concept}
+\end{figure}
+
+Das Prinzip der Tiefenmessung mittels Time-of-Flight Sensoren baut auf dem Messen der Zeit auf, die die Strahlung benötigt, um von einer Strahlungsquelle ausgestrahlt, an einem Objekt reflektiert zu werden und schließlich auf einen Sensor zu treffen. Wie in \autoref{fig:tof_concept} veranschaulicht, besteht ein Time-of-Flight System im Kern aus einer Strahlungsquelle, die ein amplitudenmoduliertes Signal aussendet und einem Sensor, der das Signal erfasst, das von Objekten reflektiert wird. Typischerweise wird dabei Infrarotlicht (IR) oder Nahes Infrarotlicht (NIR) verwendet, das auf einen schmalen Frequenzbereich beschränkt ist. So sollen Effekte durch Umgebungslicht unterdrückt werden. Im einfachsten Fall besteht der Sensor aus einem einzelnen Pixel, das nur eine Tiefeninformation liefert. Die Tiefeninformation wird mit der Flugdauer $\Delta t$, die das Licht benötigt hat, um von einem Objekt reflektiert zu werden und auf den Sensor zu treffen, und der Ausbreitungsgeschwindigkeit des Lichts $c$ berechnet. Das Produkt wird dabei halbiert, da das Licht die zweifache Strecke zurückgelegt hat \begin{equation}d = \frac{c \cdot \Delta t}{2}.\label{eq:distancefromtime}\end{equation}
+
+Die Flugdauer umfasst bei Lichtgeschwindigkeit einen Zeitraum von wenigen Nanosekunden. Für Laserscanner werden dazu Einzelphoton Lawinenphotodioden bzw. Single-Photon Avalanche Diodes (SPADs), auch bekannt als Geigermode-APD (GAPDs), verwendet. Diese können die Photonen mit einer Genauigkeit von wenigen Picosekunden detektieren, was eine Messung der Distanz mit einer Genauigkeit von wenigen Millimetern ermöglicht \cite{bib:Giancola2018}.
+
+Da das direkte Messen der Zeit hohe Anforderungen an die Präzision der Bauteile stellt, wird alternativ das modulierte Lichtsignal über einen Zeitraum integriert und die Distanz entweder direkt mittels Plusdauermodulation aus dem Verhältnis zweier Intensitäten oder mittels der Continuous-Wave Modulation durch Berechnung der Phasenverschiebung einer kontinuierlichen Wellenfunktion berechnet. Die beiden Verfahren werden jeweils in \autoref{chap:pulsed_tof} und \autoref{chap:cw_tof} im Detail erläutert.
+
+Beiden Methoden ist gemeinsam, dass sie ein amplitudenmoduliertes Signal zur direkten Messung der Distanz oder der Phasenverschiebung verwenden, aus der sich die Distanz berechnen lässt. Bei der Amplitudenmodulation wird ein hochfrequentes Trägersignal durch ein niederfrequentes Nutzsignal verändert. Bei dem Trägersignal handelt es sich bei Time-of-Flight Kamerasystemen um das emittierte Infrarotlicht, dessen Amplitude verändert wird. Die Frequenz des Trägersignals spielt bei der Berechnung der Distanz keine Rolle und wird nur zum Übertragen des Nutzsignals verwendet.
+
+\subsection{Pulsdauermodulation}\label{chap:pulsed_tof}
+
+\begin{figure}[ht]
+    \centering
+    \includepdftex{pulsed_tof}
+    \caption{Bestimmung der Distanz eines reflektieren Lichtpulses mit Hilfe von zwei Buckets $C_1$ und $C_2$.}
+    \label{fig:pulsed_tof}
+\end{figure}
+
+Time-of-Flight Kameras, die mit der Pulsdauermodulation arbeiten, senden in bestimmten Abständen Lichtpulse mit einer definierten Dauer $t_0$ aus und ermitteln die Zeit $\Delta t$, die das Licht benötigt, um an einer Objektoberfläche reflektiert zu werden und zum Sensor zurückzukehren. Dafür wird das Licht über eine Dauer $t_0$ durch eine Infrarot LED oder einen Laser emittiert und das zurückstrahlende Licht von Sensoren aufgenommen. Abhängig von der Distanz trifft das Licht mit einer Verzögerung $\Delta t$ am Sensor auf. 
+
+Li \cite{bib:Li2014} präsentiert eine Lösung zur Messung der Verzögerung, indem pro Pixel mehrere sogenannte Buckets das reflektierende Licht zeitversetzt über einen Zeitraum von $t_0$ integrieren und der Zeitversatz $\Delta t$ mit Hilfe des Verhältnisses der Intensitäten approximiert wird. In der einfachsten Form enthält das System zwei Buckets $C_1$ und $C_2$. Ein Bucket nimmt das Licht während des Zeitraums $t_0$ auf, während ein zweites Bucket zeitversetzt beginnend ab $t_0$ über dieselbe Periodendauer $t_0$ das reflektierte Licht aufnimmt. \autoref{fig:pulsed_tof} veranschaulicht das Konzept. Die elektrischen Ladungen $Q_1$ und $Q_2$ der jeweiligen Buckets $C_1$ und $C_2$ werden genutzt, um den Zeitversatz $\Delta t$ aus dem Verhältnis zu berechnen \begin{equation}\Delta t = t_0 \cdot \frac{Q_2}{Q_1 + Q_2}.\end{equation}
+
+Durch Einsetzen von $\Delta t$ in \autoref{eq:distancefromtime} lässt sich die Distanz bestimmen \begin{equation}d = \frac{c \cdot t_0}{2} \cdot \frac{Q_2}{Q_1 + Q_2}.\end{equation}
+
+Die maximale Distanz $d_{max}$, die gemessen werden kann, ergibt sich aus der Zeit, die das Licht braucht, um während der Periodendauer $t_0$ von einem Objekt reflektiert zu werden und wieder zurück zum Sensor zu gelangen \begin{equation}d_{max} = \frac{c \cdot t_0}{2}.\end{equation}
+
+Da Licht, das länger als die maximale Zeit von $t_0$ benötigt, um zurückzukehren, nicht mehr von $C_1$ erfasst wird, führt eine größere Distanz dazu, dass die Ladung von $Q_1$ einen Wert von 0 hat und somit die Distanz nicht mehr korrekt berechnet werden kann, da das Verhältnis unabhängig von der Distanz einen Wert von 1 annimmt, solange $Q_2$ eine Ladung ungleich 0 hat.
+
+\subsection{Continuous-Wave Modulation}\label{chap:cw_tof}
+
+Im Kontrast zur einfachen Pulsdauermodulation werden bei einer Continuous-Wave Modulation entweder rechteckförmige oder sinusförmige Wellenfunktionen emittiert. Üblicherweise werden Rechteckfunktionen verwendet, da diese einfacher in elektronischen Schaltkreisen zu realisieren sind \cite{bib:Li2014}.
+
+Wenn die Frequenz $f$ eines Signals bekannt ist, lässt sich daraus die Phasenverschiebung des reflektierten Signals berechnen, womit sich die Flugzeit $\Delta t$ bestimmen lässt. Das Ermitteln der Phasenverschiebung unterscheidet sich abhängig von der gewählten Modulation. Hierbei sei angemerkt, dass es sich bei der Frequenz $f$ nicht um die Frequenz des Infrarotlichtes handelt, sondern um die Frequenz des Nutzsignals.
+
+Creath \cite{bib:Creath88} verglich mehrere Phasen Messmethoden, wobei laut Giancola et al. \cite{bib:Giancola2018} die Vier Bucket Variante am weitesten vertreten ist und auch von Meister et al. \cite{bib:Meister2013} in ihrer Arbeit zur Simulation einer Time-of-Flight Kamera verwendet wird. Hierbei wird die Anzahl an auftreffenden Photonen in Form von elektrischen Ladungen $Q_1$, $Q_2$, $Q_3$ und $Q_4$ der vier Buckets $C_1$, $C_2$, $C_3$ und $C_4$ gemessen und die Phasenverschiebung $\phi$ geschätzt
+\begin{equation}\phi = atan\Big(\frac{Q_3 - Q_4}{Q_1 - Q_2}\Big).\label{eq:phasefromcharge}\end{equation}
+
+Der Zeitversatz $\Delta t$ lässt sich mit Hilfe der Phasenverschiebung $\phi$ berechnen
+
+\begin{equation}\Delta t = \frac{\phi}{2 \pi f}.\label{eq:timefromphase}\end{equation}
+
+Die daraus resultierende Distanz $d$ lässt sich schlussendlich durch Einsetzen des Zeitversatzes $\Delta t$ in die \autoref{eq:distancefromtime} bestimmen.
+
+Zusätzlich kann nach Li \cite{bib:Li2014} mit den Ladungen $Q_1$, $Q_2$, $Q_3$ und $Q_4$ die Intensität $A$ des Infrarotsignals und der Versatz $B$, der durch die ambiente Beleuchtung verursacht wird, berechnet werden
+\begin{equation}A = \frac{\sqrt{(Q_1-Q_2)^2+(Q_3-Q_4)^2}}{2}\end{equation}
+\begin{equation}B = \frac{Q_1+Q_2+Q_3+Q_4}{4}.\end{equation}
+
+Die maximale Distanz, die mittels der Continuous-Wave Modulation gemessen werden kann, wird durch die Wellenlänge des Nutzsignals bestimmt. Da das Licht einen Hin- und Rückweg hat, berechnet sich die maximale Distanz aus der Hälfte der Wellenlänge \begin{equation}d_{amb} = \frac{c}{2 f}.\end{equation}
+
+Da sich das Signal bei einer Phasenverschiebung von $2 \pi$ wiederholt, führt die Schätzung des Tiefenwerts mittels Phasenverschiebung zu einer Mehrdeutigkeit (Ambiguität) ab einem maximal messbaren Tiefenwert $d_{amb}$. Eine Möglichkeit zur Erhöhung der maximalen Distanz ist die, die Frequenz zu reduzieren. Dies führt jedoch zu einer Reduktion der Genauigkeit, da die Stärke des Rauschens $\sigma$ zunimmt. Das Rauschverhalten kann nach Li \cite{bib:Li2014} mit folgender Gleichung approximiert werden: 
+\begin{equation}\sigma = \frac{c}{4 \sqrt{2} \pi f} \cdot \frac{\sqrt{A+B}}{c_dA}\label{eq:timeofflighterror}\end{equation}
+
+Der Modulationskontrast $c_d$ beziffert dabei, wie gut der Time-of-Flight Sensor Photoelektronen sammelt und separiert. Der \autoref{eq:timeofflighterror} kann entnommen werden, dass eine hohe Amplitude und eine hohe Modulationsfrequenz die Genauigkeit erhöht, eine hohe Modulationsfrequenz allerdings auch zu einer geringeren Reichweite führt.
+
+\begin{figure}[ht]
+    \centering
+    \includepdftex{ambiguity}
+    \caption{Konzept eines Time-of-Flight Sensors, der mit mehreren Frequenzen arbeitet.}
+    \label{fig:ambiguity}
+\end{figure}
+
+Einige Time-of-Flight Systeme, wie die Kinect v2, kombinieren daher, wie in \autoref{fig:ambiguity} veranschaulicht, mehrere Aufnahmen mit unterschiedlichen Frequenzen, um die Genauigkeit der geschätzten Tiefenwerte bei gleichzeitig großen Distanzen zu erhöhen. Der echte Tiefenwert wird bestimmt, indem die Tiefenwerte aller Frequenzen miteinander verglichen werden und ein Tiefenwert ermittelt wird, der in allen Frequenzen miteinander übereinstimmt. Giancola et al. \cite{bib:Giancola2018} untersuchte in diesem Zusammenhang im Detail den Aufbau und die Funktionsweise der Kinect v2. Dabei wurde festgestellt, dass die Kinect v2 drei unterschiedliche Frequenzen verwendet. Für ein Tiefenbild wird zunächst eine Aufnahme bei 80 MHz für 8 ms erstellt, gefolgt von einer Aufnahme mit einer Frequenz von 16 MHz für 4 ms und einer abschließenden Aufnahme mit einer Frequenz von 120 MHz für 8 ms. Jede Frequenz hat dabei eine andere Mehrdeutigkeitsdistanz $d_{amb}$. Die Frequenz, bei der die Mehrdeutigkeit aller Frequenzen übereinstimmen, wird als \emph{Schlagfrequenz} oder \emph{Beat Frequency} bezeichnet. Diese Frequenz ist meist niedriger und weist eine höhere maximale Distanz auf \cite{bib:Li2014}. Die Schlagfrequenz der Kinect v2 beträgt 8 Mhz, was eine maximale mehrdeutigkeitsfreie Distanz von 18,73 Metern ermöglicht.
+
+\subsubsection{Amplitudenmodulation mit rechteckförmigen Signal}
+
+\begin{figure}[ht]
+    \centering
+    \includepdftex{cw_tof_1}
+    \caption{Approximation der Phasenverschiebung eines rechteckförmigen Signals mit vier Buckets $C_1$, $C_2$, $C_3$ und $C_4$ nach Wyant \cite{bib:Wyant82}.}
+    \label{fig:cw_tof_1}
+\end{figure}
+
+Bei einem rechteckförmigen Signal werden wie bei der Pulsdauermodulation in regelmäßigen Abständen Lichtpulse emittiert. Im Unterschied zur Pulsmethode stimmt die Dauer der Lichtpulse und die Abstände zwischen den Lichtpulsen überein, wodurch ein kontinuierliches Signal entsteht, dessen Phasenverschiebung durch \autoref{eq:timefromphase} bestimmt werden kann. Wie \autoref{fig:cw_tof_1} verdeutlicht, geschieht dies mit Hilfe der oben genannten vier, jeweils um $90^\circ$ versetzten, Buckets. Mittels der Ladungen $Q_1$, $Q_2$, $Q_3$ und $Q_4$ kann die Phasenverschiebung des reflektierten Signals bestimmt werden. Die Pulsdauer $t_0$ eines Rechteckpulses eines Signals mit einer Frequenz $f$ lässt sich anhand der halben Wellenlänge berechnen \begin{equation}t_0 = \frac{1}{2f}.\end{equation}
+
+\subsubsection{Amplitudenmodulation mit sinusförmigem Signal}\label{sec:modulated_sinus_signal}
+
+\begin{figure}[ht]
+    \centering
+    \includepdftex{cw_tof_2}
+    \caption{Approximation der Phasenverschiebung eines sinusförmigen Signals mit vier Buckets $C_1$, $C_2$, $C_3$ und $C_4$ nach Hertzberg et al. \cite{bib:Hertzberg2014}.}
+    \label{fig:cw_tof_2}
+\end{figure}
+
+Im Folgenden wird das Ermitteln der Flugzeit $\Delta t$ des Lichts mittels Approximation der Phasenverschiebung $\phi$ einer Sinuswelle nach Hertzberg et al. \cite{bib:Hertzberg2014} erläutert. Im Falle einer Sinusmodulation entfallen die hohen Anforderungen an die Flankensteilheit des Rechtecksignals, die besonders bei hohen Frequenzen entscheidend ist. Die Verwendung von Sinuswellen erlaubt in der Praxis daher eine robustere und genauere Schätzung der Phasenverschiebung $\phi$, wodurch der Zeitversatz $\Delta t$ genauer bestimmt werden kann \cite{bib:Giancola2018}.
+
+Bei dem generierten Signal handelt es sich um eine Sinuswelle $\psi(t)$ mit einer bekannten Amplitude $I$, Frequenz $f$ und Versatz $c_o$
+
+\begin{equation}\psi(t) = I \cdot \sin(2\pi f t) + c_o.\end{equation}
+
+Der Versatz ist dabei so gewählt, dass er größer oder gleich $I$ ist, da kein Licht mit negativer Intensität emittiert werden kann. Ein Anteil $\alpha$ des emittierten Lichtes kehrt zum Sensor zurück, wobei die Phase des Signals in Abhängigkeit von der Zeit $\Delta t$, die das Licht unterwegs war, verschoben ist. Zusätzlich kommt ein konstanter Anteil an ambienter Beleuchtung $c_B$ hinzu. Das gemessene Licht kann also wie folgt beschrieben werden:
+
+\begin{equation}z(t) = \alpha \cdot \psi(t - \Delta t) + c_B.\end{equation}
+
+Zur Bestimmung der Phasenverschiebung wird das Signal jeweils zeitversetzt über eine halbe Wellenlänge in den einzelnen Buckets integriert
+
+\begin{equation}s^{[k]}=\int_{\frac{k}{4f}}^{\frac{k+2}{4f}}z(t)dt=\Big[c_1t-\frac{2\alpha a}{4\pi f}\cos(2\pi f(t-\Delta t))\Big]_{\frac{k}{4f}}^{\frac{k+2}{4f}}\end{equation}
+
+\begin{equation}=c_2+\frac{2\alpha a}{2\pi f} \cos\Big(\frac{\pi}{2}k-2\pi f \Delta t\Big).\end{equation}
+
+Die Phasenverschiebung wird analog zur \autoref{eq:phasefromcharge} aus den Ladungen der Buckets $C_1$, $C_2$, $C_3$ und $C_4$ bestimmt
+
+\begin{equation}\phi = atan\Big(\frac{s^{[1]} - s^{[3]}}{s^{[0]} - s^{[2]}}\Big).\label{eq:sin_phase_calculation}\end{equation}
+
+Die Flugzeit wird anschließend aus \autoref{eq:timefromphase} und die daraus resultierende Distanz schließlich durch Einsetzen in \autoref{eq:distancefromtime} berechnet.
+
+% \section{ArUCO Marker}
+% [Da ArUCO Marker häufige Verwendung in der Arbeit finden, wird die Funktionsweise in Kürze erläutert.]
+% 
+% \section{Das Kameramodell}
+% 
+% \subsection{Lineares Kameramodell}
+% [Pinhole Camera]
+% [nicht zentrierte Projektionsmatrix (Generalized Perspective Projection)]
+%  
+% \subsection{Nichtineares Kameramodell}
+% [Erläuterung der Lens Distortion und der Korrektur mittels OpenCV]
+
+\subfilebib % Makes bibliography available when compiling as subfile
+\end{document}

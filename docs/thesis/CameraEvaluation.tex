@@ -1,0 +1,223 @@
+\documentclass[thesis.tex]{subfiles}
+\begin{document}
+
+\chapter{Kamera Evaluation}
+\label{chap:cameraevaluation}
+
+Im Rahmen der Arbeit werden die Tiefensensoren evaluiert und gleichzeitig zum Zweck der Simulation kalibriert. Zunächst werden daher die Fehlerquellen aufgezählt und eine Möglichkeit zur Evaluation aufgezeigt.
+
+Das Ziel der Kalibrierung ist es, einen Fehler als mathematische Funktion zu Approximieren, um diesen im Anschluss simulieren zu können, während die Evaluation dem Zweck dient, den gemessenen Fehler mit der Simulation qualitativ vergleichen zu können. Dabei kann der Testaufbau in der Simulation nicht perfekt nachempfunden werden, weshalb auf einen quantitativen Vergleich größtenteils verzichtet wird.
+
+\section{Übersicht der evaluierten Sensoren}
+Technische Daten und Eigenschaften der genutzten Hardware:
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.32\textwidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{Hardware_Kinect}
+    \caption{Kinect v2}
+\end{subfigure}%
+\begin{subfigure}{.32\textwidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{Hardware_Xtion2}
+    \caption{ASUS Xtion 2}
+\end{subfigure}
+\begin{subfigure}{.32\textwidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{Hardware_IFM}
+    \caption{IFM O3D303}
+\end{subfigure}
+\end{figure}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Gerät & Kinect v2 & ASUS Xtion 2 & IFM O3D303 \\
+\hline
+Reichweite & 0,5 - 4,5 m & 0,8 - 3,5 m & 0,3 - 30 m \\
+Auflösung & 512 x 424 Pixels & 640 x 480 Pixels & 352 x 264 Pixels \\
+Framerate & 30 fps & 30 fps & 4 - 25 fps  \\
+Field of View & \ang{70} x \ang{60} & \ang{74} x \ang{52} & \ang{60} x \ang{45}\\
+\hline
+\end{tabular}
+
+\newpage
+
+\section{Temperatur}
+
+Mehrere Quellen belegen, dass die gemessenen Tiefenwerte von Time-of-Flight Sensoren durch die Temperatur der Sensoren selbst beeinflusst werden, da diese sich im Laufe des Betriebs erwärmen. Außerdem werden die Sensoren auch von der Umgebungstemperatur beeinflusst. Die Arbeit konzentriert sich allerdings nur auf die Temperatur der Sensoren selbst und zu diesem Zweck wird die Evaluation in einem klimatisierten Raum durchgeführt, dessen Temperatur als konstant angenommen wird. Zur Sicherheit wird die Temperaturentwicklung im Raum beobachtet und protokolliert.
+
+Um den Einfluss der Betriebstemperatur des Sensors zu evaluieren, werden zwei Versuche durchgeführt. Zunächst wird die Kamera fixiert und die optische Achse orthogonal zu einer ebenen Fläche ausgerichtet. Diese Fläche befindet sich ungefähr 1,75 Meter vom Sensor entfernt, da das Rauschverhalten bei 1,5 Meter ein Minimum aufweist. Die zusätzlichen 0,25 Meter dienen zur Sicherheit, da das Rauschverhalten der einzelnen Kameras noch nicht bekannt ist und das Signal-Rausch-Verhältnis bei ungefähr 1,5 Meter ein Maximum erreicht, bevor es anschließend linear abnimmt. Diese Werte unterscheiden sich von Kamera zu Kamera.
+
+Diese Evaluation wird durchgeführt, um den Zeitpunkt festzustellen, an dem sich die Temperatur des Gerätes stabilisiert und der gemessene Einfluss auf die Tiefenwerte konstant bleibt.
+
+\newpage
+
+\section{Evaluation der zufälligen Abweichung}
+
+Nachdem die Kamera warmgelaufen ist, wird das Rauschverhalten analysiert. Die Kamera bleibt fixiert, während der Abstand einer Fläche, die orthogonal zur optischen Achse ausgerichtet ist, erhöht wird. Der tatsächliche Abstand ist in diesem Fall nicht relevant, da der gemessene Abstand in Relation zum Rauschen betrachtet wird. Wie bereits aus vorangegangenen Arbeiten bekannt ist, wird eine lineare Abhängigkeit zwischen Rauschen und gemessener Distanz erwartet. Interessant ist dabei das Minimum bei einem Abstand von 1500mm. Dieser Wert definiert unseren Minimalabstand für künftige Evaluationen, um den Einfluss des Rauschens auf das Evaluationsergebnis zu minimieren.
+
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=.95\linewidth]{EvaluationRandomError}
+  \label{fig:EvaluationRandomError}
+  \caption{Absoluter und relativer Fehler in Abhängigkeit zur Distanz. Ergebnisse aus dem Buch `A Survey on 3D Cameras`}
+\end{figure}
+
+\newpage
+
+\section{Evaluation der systematischen Abweichung}
+
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=.95\linewidth]{EvaluationSystematicError}
+  \label{fig:EvaluationSystematicError}
+  \caption{Systematischer Fehler in Abhängigkeit zur Distanz. Ergebnisse aus dem Buch `A Survey on 3D Cameras`}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=.95\linewidth]{MockupSystematicError}
+  \label{fig:MockupSystematicError}
+  \caption{ArUCO Marker liefen Referenzdaten um systematischen Fehler zu ermitteln.}
+\end{figure}
+
+Bisher wiesen alle betrachteten Tiefensensoren einen systematischen Fehler in Abhängigkeit zur Distanz auf. Ziel der Evaluation ist es, diesen systematischen Fehler zu ermitteln und den Funktionsverlauf zu approximieren. Dazu ist eine Ground Truth Distanz notwendig, an welcher die gemessene Distanz verglichen werden kann. Zu diesem Zweck wurden in vorangegangenen Arbeiten kalibrierte Roboterarme verwendet, die eine ebene Fläche orthogonal zum Sensor halten und den Abstand unter kontrollierten Bedingungen immer weiter entfernt. Durch den Vergleich der Position des Roboterarms und des gemessenen Abstandes, kann die systematische Abweichung ermittelt werden. 
+
+Alternativ zum Roboterarm werden im Rahmen dieser Arbeit ArUCO Marker verwendet um eine Referenzdistanz zu ermitteln. Dazu werden 8 ArUCO Marker auf eine ebene Fläche befestigt, dessen Abstand langsam erhöht wird. Da die Erkennung der ArUCO Marker selbst einen Fehler in Abhängigkeit zur Auflösung des Farbbildes einführt, werden Marker unterschiedlicher Größe verwendet um auf höhere Distanz eine ausreichende Genauigkeit sicherzustellen.
+
+Das Wissen um den systematischen Fehler kann dazu genutzt werden, um diesen zu korrigieren, indem der ermittelte Fehler von der gemessenen Distanz abgezogen wird. Wir nutzen im Rahmen dieser Arbeit allerdings die approximierte Funktion, um den systematischen Fehler zu simulieren.
+
+\newpage
+
+\section{Evaluation des Mixed Pixels Fehler}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{MixedPixelsError2}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{MixedPixelEvaluation}
+\end{subfigure}
+\caption{Vor den Sensor werden zwei Flächen hintereinander aufgestellt um den Mixed Pixels Fehler in Abhängigkeit zur Distanz zu evaluieren}
+\end{figure}
+
+Mixed Pixel Fehler beschreibt ein Phänomen, das an Kanten im Tiefenbild entsteht. Dieser Fehler wird verursacht, wenn sich ein Tiefenwert im Tiefenbild aus mehreren stark unterschiedlichen Tiefen zusammensetzt und sich irgendwo zwischen diesen beiden Kanten befindet.
+
+Der Mixed Pixel Fehler wird evaluiert, indem eine kleinere Fläche vor einen großflächigen Hintergrund positioniert wird. Indem die Flächen segmentiert und mittels Singulärwertzerlegung gefittet werden, kann der Mixed Pixels Fehler beziffert werden, indem der Fehler in Abhängigkeit zum Gradienten gemessen wird. Im Rahmen der Evaluation soll ermittelt werden, von welchen Faktoren der Mixed Pixels Fehler abhängig ist. Dazu wird zum einen der Abstand der beiden Flächen zueinander fixiert und nur der Abstand der Kamera erhöht und zum anderen der Abstand der Kamera fixiert und der Abstand der beiden Flächen zueinander erhöht.
+
+\newpage
+
+\section{Evaluation des Multiple Path Fehlers}
+
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=.95\linewidth]{EvaluationMultiplePathError}
+  \label{fig:EvaluationMultiplePathError}
+  \caption{Der Multiple Path Fehler wird durch diffuse und spekulare Reflexionen verursacht und führt zu abgerundeten konkaven Kanten}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=.95\linewidth]{MockupMultipathError}
+  \label{fig:MockupMultipathError}
+  \caption{Versuchsaufbau zur Evaluation des Multiple Path Fehlers}
+\end{figure}
+
+Der Multiple Path Fehler wird durch diffuse und spekulare Reflexionen verursacht. Ähnlich wie beim Mixed Pixels Fehler setzt sich der Tiefenwert in dem Pixel aus einer Mischung aus mehreren Tiefen zusammen. Zusätzlich zur korrekten direkten diffusen Reflexion, kommen weitere indirekte diffuse sowie spekulare Reflexionen hinzu. Da indirekte Reflexionen grundsätzlich einen weiteren Weg zurückgelegt haben, wird dadurch der Tiefenwert größer als er eigentlich sein sollte. 
+
+Diese Evaluation dient dem qualitativen Vergleich mit der Simulation. Dazu werden Marker an zwei Flächen angebracht, die eine konkave Kante mit einem Winkel von 90 Grad bilden. Der Aufbau wird mittels eines Structured Light Sensors aufgenommen und als Punktewolke rekonstruiert. Diese Punktwolke dient zum Schluss zur Evaluation der Simulation, um vergleichbare Bilder zu schaffen. Die Marker dienen der Berechnung der Kameraposition.
+
+Die Abweichung vin der Ideal-Ebene wird in Form einer Heatmap dargestellt und ebenfalls mit dem simulierten Ergebnis verglichen.
+
+\newpage
+
+\section{Evaluation des Lens Scattering oder Aperture Diffraction  Fehlers}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{EvaluationLensScattering}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{MockupLensScattering}
+\end{subfigure}
+\caption{Lens Scattering beeinflusste Pixel in der Nachbarschaft, falls sich ein Objekt nah am Sensor befindet}
+\end{figure}
+
+Beim Lens Scattering handelt es sich um das Phänomen, dass Objekte, die aus kurzer Distanz zum Sensor aufgenommen werden, Artefakte im Hintergrund verursachen. Hierbei konnte noch nicht genau festgestellt werden, ob dieser Fehler durch Lens Scattering, Aperture Diffraction oder aus einer Mischung von beidem verursacht wird. Da die Blende einer Time-of-Flight Kamera relativ klein sein muss, um Depth of Field-Effekte zu vermeiden, liegt die Vermutung nahe, dass sich der Fehler durch Aperture Diffraction deutlich erhöhen sollte. Da sich die Ursachen aber nicht klar bestimmen lassen, kann nur der verursachte Fehler gemessen werden und der Effekt modelliert werden. Der Fehler wird in Form von einer oder mehreren überlagerten Gauß-Funktionen dargestellt, der in der Simulation als Filter auf das Bild angewandt wird.
+
+Dazu wird zunächst der Hintergrund aufgenommen, um ein Referenzbild zu erhalten. Anschließend wird eine Fläche in unterschiedlichen Distanzen zum Sensor aufgestellt und der Einfluss des Objektes im Fodergrund auf die Pixel des Hintergrundes gemessen. Abhängig vom Abstand des Objekts wird der Fehler berechnet und in der Simulation berücksichtigt.
+
+\newpage
+
+\section{Evaluation von Materialeigenschaften}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.25\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{EvaluationMaterialCarton}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{EvaluationMaterialtransparentFoil}
+\end{subfigure}
+\begin{subfigure}{.25\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{EvaluationMaterialBlackFoil}
+\end{subfigure}
+\caption{Die untersuchten Materialien: Karton (links), transparente Folie (mitte) und schwarze Folie (rechts)}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+  \includegraphics[width=.95\linewidth]{MockupMaterial}
+  \label{fig:MockupMaterial}
+  \caption{Versuchsaufbau zur Evaluation der Materialeigenschaften}
+\end{figure}
+
+Zur Evaluation der Materialeigenschaften wurden Materialien gewählt, die für das Einsatzgebiet der Simulation interessant sind. Da die Simulation im Bereich der Materialflusstechnik eingesetzt wird, werden Materialien untersucht, die zur Verpackung verwendet werden und häufig in Lagerhallen vorkommen. Wir fokussieren uns dabei auf Karton, transparente Folie und schwarze Folie. Außerdem sind noch Metalle (Aluminium) und Lacke interessant, werden im Rahmen der Arbeit aber nicht betrachtet.
+
+Zur Evaluation wird für jedes Material ein 150x150x150mm Würfel mit dem entsprechenden Material angefertigt. Der Würfel wird entweder auf einen Plexiglas Block oder auf ein schwach reflektierendes Prisma aus schwarzem Tonpapier positioniert, um Multiple Path Fehler mit dem Boden zu vermeiden, während die am Boden angebrachten ArUCO Marker verwendet werden, um zur Evaluation der Simulation eine Punktewolke der Szene zu erstellen. Die gemessenen Werte jeder Kamera und Simulation werden mit der Puntewolke verglichen und die Abweichung zur Evaluation als Heatmap dargestellt.
+
+Die Würfel werden von jeder Kamera aufgenommen und zwischen den Aufnahmen rotiert, um die den Einfluss des Materials unter verschiedenen Winkeln zu evaluieren. Die Aufnahmen werden in zwei Variationen erstellt: Einmal mit einer diffus reflektierenden Oberfläche im Hintergrund und einmal mit einem Hintergrund, der sich außerhalb des Messbereichs der ToF Kamera befindet. Durch den Hintergrund wird zusätzlich der Einfluss des Multiple Path Fehlers evaluiert, der durch die reflektierende Eigenschaft des Materials entsteht.
+
+\newpage
+
+\section{Sonstiges und ignorierte Fehler}
+
+Im Folgenden werden Fehler aufgezählt, die im Rahmen der Arbeit nicht evaluiert werden. Sie werden der Vollständigkeit halber dennoch erwähnt.
+
+\subsection{Ambient Light}
+
+Das im Raum gestreute Licht durch externe Quellen, wie z.B. die Sonne, hat einen geringen Einfluss auf die Sensoren, der allerdings so gering ist, dass der Einfluss vernachlässigt werden kann, weshalb er im Rahmen der Arbeit ignoriert wird.
+
+\subsection{Position der Infrarot LED's}
+
+Die Positionen der LED's beeinflussen den Schattenwurf, was dazu führt, dass Bereiche des Bildes nicht ausgeleuchtet werden, falls sich ein Objekt näher an der Kamera befindet. Verwandte Arbeiten verzichten meistens komplett darauf, die Position der LED's zu berücksichtigen. Die Positionen der LED's werden im Rahmen dieser Arbeit mit einem Maßstab ungefähr ermittelt und entsprechend in der Simulation positioniert, der Einfluss der Positionen aber nicht evaluiert.
+
+\subsection{Motion Blur}
+
+Da die Sensoren mehrere Bilder mit unterschiedlich modulierten Frequenzen für ein Tiefenbild aufnehmen, die alle drei zur Rekonstruktion der Tiefe verwendet werden, werden die Tiefenwerte durch Bewegung während der Aufnahme beeinflusst. Da aber neben der Kinect V2 die interne Funktionsweise der Kameras nicht bekannt ist, kann der Einfluss des Motion Blurs nicht für alle Kameras modelliert werden, weshalb er im Rahmen der Arbeit ignoriert wird.
+
+\subsection{Rolling Shutter}
+
+Da bei RGB-D Kamera Systemen häufig ein Rolling Shutter für das Farbbild verwendet wird, könnte dieser in zukünftigen Arbeiten berücksichtigt werden. Diese Arbeit konzentriert sich allerdings zunächst auf die Evaluation und Simulation der Time-of-Flight Kamera, weshalb der Rolling Shutter zunächst ignoriert wird.
+
+\subsection{Undersaturation and Oversaturation}
+
+Eine zu hohe oder zu geringe Sättigung der Pixel übt einen Einfluss auf die Signal-to-Noise-Ratio aus. Direkte Reflexionen führen dazu, dass ein Pixel übersaturiert, und der gemessene Wert unbrauchbar wird und benachbarte Pixel ebenfalls durch Lens Scattering und der Aperture Diffraction beeinflusst werden. Untersaturierte Pixel verursachen ein höheres Rauschen im Tiefenwert. Da die Evaluation vermutlich den Rahmen der Arbeit sprengen würde, da die Materialeigenschaften im Infrarot-Farbspektrum schwer zu ermitteln sind und das Simulieren des Problems komplexer werden könnte als erwartet, wird der Faktor im Rahmen der Arbeit zunächst ignoriert, aber für zukünftige Arbeiten in Betracht gezogen.
+
+\subsection{Externe Lichtquellen}
+
+Externe Lichtquellen können die gemessene Tiefe beeinflussen, falls diese ein Licht im Wellenlängenbereich des Time-of-Flight Sensors ausstrahlen. Dazu zählen besonders Licht-quellen, die ihr Licht, wie z.B. die Sonne, mittels Black Body Radiation emittieren. Das Tiefenbild der ASUS Xtion2 wird außerdem vom Licht gestört, das bestimmte Leuchtstoffröhren emittieren. Da nur eine Kamera von künstlichem Licht beeinflusst wird und der Fokus in der Indoor Anwendung unter künstlicher Beleuchtung, und somit unter kontrollierten Bedingungen, liegt, wird der Einfluss externer Lichtquellen im Rahmen der Arbeit ignoriert.
+
+\subfilebib % Makes bibliography available when compiling as subfile
+\end{document}
+

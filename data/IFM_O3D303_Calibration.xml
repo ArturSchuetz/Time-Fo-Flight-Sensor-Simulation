@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<rgbCameraCheckerboardImagesPath>Checkerboard_03D303_IR</rgbCameraCheckerboardImagesPath>
+<irCameraCheckerboardImagesPath>Checkerboard_03D303_IR</irCameraCheckerboardImagesPath>
+<rgbCameraExtrinsicCheckerboardImageFilePath>Checkerboard_03D303_Extrinsic/rgb.png</rgbCameraExtrinsicCheckerboardImageFilePath>
+<irCameraExtrinsicCheckerboardImageFilePath>Checkerboard_03D303_Extrinsic/ir.png</irCameraExtrinsicCheckerboardImageFilePath>
+<calibration_checkerboard_width>8</calibration_checkerboard_width>
+<calibration_checkerboard_height>5</calibration_checkerboard_height>
+<calibration_checkerboard_squareSize>32.</calibration_checkerboard_squareSize>
+</opencv_storage>
